@@ -18,7 +18,7 @@
       }
     ],
     "collections": [
-      "postman/collections/board-third-party-library-api.generated.postman_collection.json"
+      "postman/collections/board-third-party-library-api.contract-tests.postman_collection.json"
     ]
   }
 }

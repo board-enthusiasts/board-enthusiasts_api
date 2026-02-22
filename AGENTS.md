@@ -23,6 +23,10 @@ It is intended to be the versioned home for:
 - **Primary source of truth:** OpenAPI definition(s) in this repo / API Builder.
 - Collections should be generated from or kept explicitly aligned to the spec.
 - Avoid editing spec and collection independently in ways that cause drift.
+- Treat Postman artifacts as two distinct roles:
+  - API Builder generated collection (Postman Cloud, not Git-tracked)
+  - Git-tracked contract/smoke test collection in `postman/collections/`
+- Do not export the API Builder generated collection into the repo, and do not reuse the same display name for generated and Git-tracked collections.
 
 When endpoint behavior changes, update all applicable artifacts:
 
@@ -44,7 +48,7 @@ When endpoint behavior changes, update all applicable artifacts:
 Prefer this layout as the API grows:
 
 - `postman/specs/` for OpenAPI definitions
-- `postman/collections/` for generated and workflow collections
+- `postman/collections/` for Git-tracked workflow/contract test collections (not API Builder generated duplicates)
 - `postman/environments/` for non-secret environment templates
 - `postman/globals/` only when truly needed
 - `.postman/config.json` for Postman workspace/repo metadata
@@ -67,6 +71,7 @@ Prefer this layout as the API grows:
 ## Collaboration Guidance
 
 - Keep names stable and descriptive (API name, version names, tags, folders).
+- Keep Postman Native Git tracked filenames stable once established to avoid duplicate workspace artifacts.
 - Favor small, reviewable contract increments (one domain slice at a time).
 - Start with mock-friendly examples so frontend/client development can proceed in parallel.
 - Update this `AGENTS.md` as the API-first workflow evolves (tooling conventions, sync rules, versioning rules).

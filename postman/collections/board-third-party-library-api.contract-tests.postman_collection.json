@@ -1,0 +1,359 @@
+{
+  "info": {
+    "_postman_id": "faf2a27c-c470-42fe-b404-b5b3aa9fe83e",
+    "name": "Board Third Party Library API (Contract Tests)",
+    "description": "Contract-first API definition for the Board Third Party Library. This initial slice defines service metadata and health endpoints.\n",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health",
+      "item": [
+        {
+          "name": "Get API metadata",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response is JSON\", function () {",
+                  "  pm.response.to.be.json;",
+                  "});",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Service name matches environment\", function () {",
+                  "  pm.expect(json.service).to.eql(pm.environment.get(\"expectedServiceName\"));",
+                  "});",
+                  "pm.test(\"Health endpoints are advertised\", function () {",
+                  "  pm.expect(json.endpoints).to.be.an(\"array\");",
+                  "  pm.expect(json.endpoints).to.include(\"/health/live\");",
+                  "  pm.expect(json.endpoints).to.include(\"/health/ready\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "e2060421-c14b-482b-93a9-c825e09babde",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                ""
+              ]
+            },
+            "description": "Returns basic service metadata and advertised health endpoints."
+          },
+          "response": [
+            {
+              "id": "9a416cd5-cffa-456f-9b29-423a8b23cfea",
+              "name": "API metadata returned successfully.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    ""
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"service\": \"board-third-party-lib-backend\",\n  \"endpoints\": [\n    \"/health/live\",\n    \"/health/ready\"\n  ]\n}"
+            }
+          ]
+        },
+        {
+          "name": "Liveness health check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "pm.test(\"Response is JSON\", function () {",
+                  "  pm.response.to.be.json;",
+                  "});",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Liveness status is Healthy\", function () {",
+                  "  pm.expect(json.status).to.eql(\"Healthy\");",
+                  "});",
+                  "pm.test(\"Liveness checks array is present\", function () {",
+                  "  pm.expect(json.checks).to.be.an(\"array\");",
+                  "});",
+                  "pm.test(\"durationMs is present\", function () {",
+                  "  pm.expect(json.durationMs).to.be.a(\"number\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "b6a29e29-422b-484a-837e-7d378218b89f",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health/live",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health",
+                "live"
+              ]
+            },
+            "description": "Indicates whether the API process is running. Does not check downstream dependencies.\n"
+          },
+          "response": [
+            {
+              "id": "c9a7a57e-cbc3-476d-a5ab-4ecfba1bb1a2",
+              "name": "API process is alive.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health/live",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health",
+                    "live"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"status\": \"Healthy\",\n  \"checks\": [],\n  \"durationMs\": 0.2149\n}"
+            }
+          ]
+        },
+        {
+          "name": "Readiness health check",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "var expectedHttpStatusRaw = pm.environment.get(\"expectedReadyHttpStatus\") || \"200\";",
+                  "var expectedHttpStatus = parseInt(expectedHttpStatusRaw, 10);",
+                  "var expectedOverallStatus = pm.environment.get(\"expectedReadyStatus\") || \"Healthy\";",
+                  "var expectedDatabase = pm.environment.get(\"expectedReadyDatabase\");",
+                  "var expectedUser = pm.environment.get(\"expectedReadyUser\");",
+                  "pm.test(\"Status code matches expected readiness response\", function () {",
+                  "  pm.response.to.have.status(expectedHttpStatus);",
+                  "});",
+                  "pm.test(\"Response is JSON\", function () {",
+                  "  pm.response.to.be.json;",
+                  "});",
+                  "var json = pm.response.json();",
+                  "var checks = Array.isArray(json.checks) ? json.checks : [];",
+                  "var postgresCheck = checks.find(function (c) { return c && c.name === \"postgres\"; });",
+                  "pm.test(\"Readiness status matches expected\", function () {",
+                  "  pm.expect(json.status).to.eql(expectedOverallStatus);",
+                  "});",
+                  "pm.test(\"Postgres check is present\", function () {",
+                  "  pm.expect(postgresCheck, \"postgres health check entry missing\").to.exist;",
+                  "});",
+                  "pm.test(\"durationMs is present\", function () {",
+                  "  pm.expect(json.durationMs).to.be.a(\"number\");",
+                  "});",
+                  "if (expectedOverallStatus === \"Healthy\") {",
+                  "  pm.test(\"Postgres check reports Healthy\", function () {",
+                  "    pm.expect(postgresCheck.status).to.eql(\"Healthy\");",
+                  "  });",
+                  "  pm.test(\"Postgres data matches expected database and user\", function () {",
+                  "    pm.expect(postgresCheck.data).to.be.an(\"object\");",
+                  "    if (expectedDatabase) { pm.expect(postgresCheck.data.database).to.eql(expectedDatabase); }",
+                  "    if (expectedUser) { pm.expect(postgresCheck.data.user).to.eql(expectedUser); }",
+                  "  });",
+                  "} else {",
+                  "  pm.test(\"Postgres check is not healthy when readiness is not healthy\", function () {",
+                  "    pm.expect([\"Unhealthy\", \"Degraded\"]).to.include(postgresCheck.status);",
+                  "  });",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "id": "f1c159de-a824-4495-b4b7-21f022c12fac",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health/ready",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health",
+                "ready"
+              ]
+            },
+            "description": "Indicates whether the API is ready to serve requests, including downstream dependency checks (currently PostgreSQL connectivity).\n"
+          },
+          "response": [
+            {
+              "id": "2a7ee9e2-62d4-4a46-b22c-35980d60ea74",
+              "name": "API is ready and dependencies are healthy.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health/ready",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health",
+                    "ready"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"status\": \"Healthy\",\n  \"checks\": [\n    {\n      \"name\": \"postgres\",\n      \"status\": \"Healthy\",\n      \"description\": \"PostgreSQL connection succeeded.\",\n      \"data\": {\n        \"database\": \"board_tpl\",\n        \"user\": \"board_tpl_user\"\n      }\n    }\n  ],\n  \"durationMs\": 6.1373\n}"
+            },
+            {
+              "id": "cd489645-c834-41df-8eff-30b21b757b0d",
+              "name": "API is running but not ready due to dependency failure.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health/ready",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health",
+                    "ready"
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"status\": \"Unhealthy\",\n  \"checks\": [\n    {\n      \"name\": \"postgres\",\n      \"status\": \"Unhealthy\",\n      \"description\": \"PostgreSQL connection failed.\"\n    }\n  ],\n  \"durationMs\": 12.551\n}"
+            }
+          ]
+        }
+      ],
+      "id": "4e882a71-b4d8-415e-86c0-124b635a09c4",
+      "description": "Service metadata and health endpoints."
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "id": "65709949-2bae-435d-a499-9e78bed3c093",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "id": "1a5230eb-9fb3-4c82-a0ff-e35ac085d389",
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ]
+}
