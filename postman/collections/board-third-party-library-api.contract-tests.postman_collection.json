@@ -328,6 +328,111 @@
       ],
       "id": "4e882a71-b4d8-415e-86c0-124b635a09c4",
       "description": "Service metadata and health endpoints."
+    },
+    {
+      "name": "Mock Validation",
+      "description": "Requests intended to be run against the Postman mock server to validate example matching and mock responses.",
+      "item": [
+        {
+          "name": "Readiness health check (Mock 503 example)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 503\", function () {",
+                  "  pm.response.to.have.status(503);",
+                  "});",
+                  "pm.test(\"Response is JSON\", function () {",
+                  "  pm.response.to.be.json;",
+                  "});",
+                  "var json = pm.response.json();",
+                  "var checks = Array.isArray(json.checks) ? json.checks : [];",
+                  "var postgresCheck = checks.find(function (c) { return c && c.name === \"postgres\"; });",
+                  "pm.test(\"Readiness status is Unhealthy\", function () {",
+                  "  pm.expect(json.status).to.eql(\"Unhealthy\");",
+                  "});",
+                  "pm.test(\"Postgres check is present and unhealthy\", function () {",
+                  "  pm.expect(postgresCheck).to.exist;",
+                  "  pm.expect(postgresCheck.status).to.eql(\"Unhealthy\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "id": "8192342a-74ad-4826-8f92-6e1ef6c9b3bf",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "503",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "API is running but not ready due to dependency failure.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/health/ready",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health",
+                "ready"
+              ]
+            },
+            "description": "Mock-only request that forces the saved 503 readiness example using Postman mock headers. Use against the Postman mock server, not the real backend."
+          },
+          "response": [
+            {
+              "id": "cd489645-c834-41df-8eff-30b21b757b0d",
+              "name": "API is running but not ready due to dependency failure.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/health/ready",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health",
+                    "ready"
+                  ]
+                }
+              },
+              "status": "Service Unavailable",
+              "code": 503,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n  \"status\": \"Unhealthy\",\n  \"checks\": [\n    {\n      \"name\": \"postgres\",\n      \"status\": \"Unhealthy\",\n      \"description\": \"PostgreSQL connection failed.\"\n    }\n  ],\n  \"durationMs\": 12.551\n}"
+            }
+          ]
+        }
+      ]
     }
   ],
   "event": [

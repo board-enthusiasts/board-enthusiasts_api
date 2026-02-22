@@ -4,7 +4,8 @@
   },
   "entities": {
     "environments": [
-      "postman/environments/board-third-party-library_local.postman_environment.json"
+      "postman/environments/board-third-party-library_local.postman_environment.json",
+      "postman/environments/board-third-party-library_mock.postman_environment.json"
     ],
     "flows": [],
     "globals": [
@@ -18,7 +19,8 @@
       }
     ],
     "collections": [
-      "postman/collections/board-third-party-library-api.contract-tests.postman_collection.json"
+      "postman/collections/board-third-party-library-api.contract-tests.postman_collection.json",
+      "postman/collections/postman-admin.board-third-party-library-mock-provisioning.postman_collection.json"
     ]
   }
 }

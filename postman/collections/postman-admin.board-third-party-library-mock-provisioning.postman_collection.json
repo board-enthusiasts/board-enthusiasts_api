@@ -1,0 +1,201 @@
+{
+  "info": {
+    "_postman_id": "2105612e-4326-4774-9d9e-fefa6f9767a9",
+    "name": "Postman Admin - Board Third Party Library Mock Provisioning",
+    "description": "Provision and inspect the Postman mock server for the Board Third Party Library contract tests using the Postman API. Use with the Board Third Party Library - Mock environment.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Collections",
+      "item": [
+        {
+          "name": "List collections and resolve Contract Tests UID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{postmanApiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{postmanApiBaseUrl}}/collections",
+              "host": [
+                "{{postmanApiBaseUrl}}"
+              ],
+              "path": [
+                "collections"
+              ]
+            },
+            "description": "Stores the UID of the contract test collection in contractTestsCollectionUid."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "var payload = pm.response.json();",
+                  "var collections = (payload && payload.collections) || [];",
+                  "var targetName = pm.environment.get(\"contractTestsCollectionName\");",
+                  "var target = collections.find(function (c) { return c && c.name === targetName; });",
+                  "pm.test(\"Contract Tests collection exists\", function () {",
+                  "  pm.expect(target, \"Collection not found: \" + targetName).to.exist;",
+                  "});",
+                  "if (target && target.uid) { pm.environment.set(\"contractTestsCollectionUid\", target.uid); }"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Mocks",
+      "item": [
+        {
+          "name": "Create mock server (Contract Tests collection)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{postmanApiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"mock\": {\n    \"name\": \"{{mockServerName}}\",\n    \"collection\": \"{{contractTestsCollectionUid}}\",\n    \"private\": false\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{postmanApiBaseUrl}}/mocks?workspace={{workspaceId}}",
+              "host": [
+                "{{postmanApiBaseUrl}}"
+              ],
+              "path": [
+                "mocks"
+              ],
+              "query": [
+                {
+                  "key": "workspace",
+                  "value": "{{workspaceId}}"
+                }
+              ]
+            },
+            "description": "Creates a mock server from the Git-tracked Contract Tests collection. Run the collection lookup first."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 200 or 201\", function () {",
+                  "  pm.expect([200, 201]).to.include(pm.response.code);",
+                  "});",
+                  "var payload = pm.response.json();",
+                  "var mock = payload && payload.mock;",
+                  "pm.test(\"Mock object returned\", function () {",
+                  "  pm.expect(mock).to.exist;",
+                  "});",
+                  "if (mock) {",
+                  "  if (mock.id) { pm.environment.set(\"mockId\", String(mock.id)); }",
+                  "  var mockUrl = mock.mockUrl || mock.url || \"\";",
+                  "  if (mockUrl) {",
+                  "    pm.environment.set(\"mockUrl\", mockUrl);",
+                  "    pm.environment.set(\"baseUrl\", mockUrl);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List mocks",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-Api-Key",
+                "value": "{{postmanApiKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{postmanApiBaseUrl}}/mocks",
+              "host": [
+                "{{postmanApiBaseUrl}}"
+              ],
+              "path": [
+                "mocks"
+              ]
+            },
+            "description": "Lists mock servers and updates mockId/mockUrl for mockServerName when present."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "var payload = pm.response.json();",
+                  "var mocks = (payload && payload.mocks) || [];",
+                  "var targetName = pm.environment.get(\"mockServerName\");",
+                  "var target = mocks.find(function (m) { return m && m.name === targetName; });",
+                  "if (target) {",
+                  "  if (target.id) { pm.environment.set(\"mockId\", String(target.id)); }",
+                  "  if (target.mockUrl) {",
+                  "    pm.environment.set(\"mockUrl\", target.mockUrl);",
+                  "    pm.environment.set(\"baseUrl\", target.mockUrl);",
+                  "  }",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

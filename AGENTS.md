@@ -26,6 +26,7 @@ It is intended to be the versioned home for:
 - Treat Postman artifacts as two distinct roles:
   - API Builder generated collection (Postman Cloud, not Git-tracked)
   - Git-tracked contract/smoke test collection in `postman/collections/`
+- If Postman Cloud admin/provisioning requests are needed (for example mock server provisioning via Postman API), keep them in a separate Git-tracked admin collection with a distinct name and purpose.
 - Do not export the API Builder generated collection into the repo, and do not reuse the same display name for generated and Git-tracked collections.
 
 When endpoint behavior changes, update all applicable artifacts:
