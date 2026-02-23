@@ -684,6 +684,11 @@
               {
                 "key": "Accept",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
               }
             ],
             "url": {
@@ -709,6 +714,11 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
                   }
                 ],
                 "url": {
@@ -734,6 +744,127 @@
               ],
               "cookie": [],
               "body": "{\n  \"emailAddresses\": [\n    {\n      \"id\": \"e7fb8793-8443-487b-9bfc-e5ef38145c4a\",\n      \"email\": \"alex@example.com\",\n      \"verified\": true,\n      \"isPrimary\": true,\n      \"status\": \"active\"\n    },\n    {\n      \"id\": \"489a1540-39f5-499f-a4fd-1874a0136d31\",\n      \"email\": \"alex.rivers@example.com\",\n      \"verified\": false,\n      \"isPrimary\": false,\n      \"status\": \"pending_verification\"\n    }\n  ]\n}"
+            },
+            {
+              "id": "dc9ac3f0-d140-440e-83c8-6a746942afc2",
+              "name": "Missing, invalid, or expired bearer access token.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/unauthorized\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"A valid bearer access token is required.\",\"code\":\"unauthorized\"}"
+            },
+            {
+              "id": "505583f8-337c-4313-b89b-f2051a8de55e",
+              "name": "Authenticated caller is not allowed to perform this action.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/forbidden\",\"title\":\"Forbidden\",\"status\":403,\"detail\":\"You are not permitted to perform this action.\",\"code\":\"forbidden\"}"
+            },
+            {
+              "id": "5d63aa60-7f6f-4174-8496-36ebc9651752",
+              "name": "Too many requests for this operation. Retry after the cooldown window.",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Retry-After",
+                  "value": "60"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/rate-limit-exceeded\",\"title\":\"Too Many Requests\",\"status\":429,\"detail\":\"Too many verification attempts were made. Retry after the cooldown period.\",\"code\":\"rate_limit_exceeded\"}"
             }
           ]
         },
@@ -768,6 +899,11 @@
               {
                 "key": "Accept",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
               },
               {
                 "key": "Content-Type",
@@ -819,6 +955,11 @@
                     "value": "application/json"
                   },
                   {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
                     "key": "Content-Type",
                     "value": "application/json"
                   }
@@ -862,6 +1003,11 @@
                     "value": "application/json"
                   },
                   {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
                     "key": "Content-Type",
                     "value": "application/json"
                   }
@@ -893,6 +1039,151 @@
               ],
               "cookie": [],
               "body": "{\"type\":\"https://boardtpl.dev/problems/duplicate-email\",\"title\":\"Duplicate email address\",\"status\":409,\"detail\":\"This email address is already associated with another account.\",\"code\":\"duplicate_email\"}"
+            },
+            {
+              "id": "dda17ec7-1757-447b-a62a-272d4828e6df",
+              "name": "Missing, invalid, or expired bearer access token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"email\":\"alex.rivers@example.com\"}"
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/unauthorized\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"A valid bearer access token is required.\",\"code\":\"unauthorized\"}"
+            },
+            {
+              "id": "cf893278-b9bd-467f-82c2-e19d98192c2b",
+              "name": "Authenticated caller is not allowed to perform this action.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"email\":\"alex.rivers@example.com\"}"
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/forbidden\",\"title\":\"Forbidden\",\"status\":403,\"detail\":\"You are not permitted to perform this action.\",\"code\":\"forbidden\"}"
+            },
+            {
+              "id": "71ece561-b79c-45db-a6f6-b4a5ca40acac",
+              "name": "Too many requests for this operation. Retry after the cooldown window.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"email\":\"alex.rivers@example.com\"}"
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Retry-After",
+                  "value": "60"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/rate-limit-exceeded\",\"title\":\"Too Many Requests\",\"status\":429,\"detail\":\"Too many verification attempts were made. Retry after the cooldown period.\",\"code\":\"rate_limit_exceeded\"}"
             }
           ]
         },
@@ -933,6 +1224,11 @@
                 "value": "application/json"
               },
               {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
                 "key": "x-mock-response-code",
                 "value": "202",
                 "type": "text"
@@ -968,6 +1264,11 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
                   }
                 ],
                 "url": {
@@ -1005,6 +1306,11 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
                   }
                 ],
                 "url": {
@@ -1032,6 +1338,135 @@
               ],
               "cookie": [],
               "body": "{\"type\":\"https://boardtpl.dev/problems/email-already-verified\",\"title\":\"Email address is already verified\",\"status\":409,\"detail\":\"This email address is already verified.\",\"code\":\"email_already_verified\"}"
+            },
+            {
+              "id": "9509e3a6-aaa4-4709-8687-a75123390a9d",
+              "name": "Missing, invalid, or expired bearer access token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/send-verification",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "send-verification"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/unauthorized\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"A valid bearer access token is required.\",\"code\":\"unauthorized\"}"
+            },
+            {
+              "id": "4272f467-57f2-4661-81da-ea0aa5986ce6",
+              "name": "Too many requests for this operation. Retry after the cooldown window.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/send-verification",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "send-verification"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Retry-After",
+                  "value": "60"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/rate-limit-exceeded\",\"title\":\"Too Many Requests\",\"status\":429,\"detail\":\"Too many verification attempts were made. Retry after the cooldown period.\",\"code\":\"rate_limit_exceeded\"}"
+            },
+            {
+              "id": "ff472f56-557b-419b-8a02-298f8756cee4",
+              "name": "Authenticated caller is not allowed to perform this action.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/send-verification",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "send-verification"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/forbidden\",\"title\":\"Forbidden\",\"status\":403,\"detail\":\"You are not permitted to perform this action.\",\"code\":\"forbidden\"}"
             }
           ]
         },
@@ -1069,6 +1504,11 @@
               {
                 "key": "Accept",
                 "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
               },
               {
                 "key": "Content-Type",
@@ -1122,6 +1562,11 @@
                     "value": "application/json"
                   },
                   {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
                     "key": "Content-Type",
                     "value": "application/json"
                   }
@@ -1167,6 +1612,11 @@
                     "value": "application/json"
                   },
                   {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
                     "key": "Content-Type",
                     "value": "application/json"
                   }
@@ -1200,6 +1650,159 @@
               ],
               "cookie": [],
               "body": "{\"type\":\"https://boardtpl.dev/problems/verification-code-invalid\",\"title\":\"Verification code is invalid or expired\",\"status\":409,\"detail\":\"The verification code is invalid, expired, or has already been used.\",\"code\":\"verification_code_invalid\"}"
+            },
+            {
+              "id": "4eb35d66-d99d-4118-94a2-d96d2a4b5406",
+              "name": "Missing, invalid, or expired bearer access token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"code\":\"482913\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "verify"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/unauthorized\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"A valid bearer access token is required.\",\"code\":\"unauthorized\"}"
+            },
+            {
+              "id": "3ccfd090-a489-4e48-b33e-0f31863876cb",
+              "name": "Too many requests for this operation. Retry after the cooldown window.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"code\":\"482913\"}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "verify"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Retry-After",
+                  "value": "60"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/rate-limit-exceeded\",\"title\":\"Too Many Requests\",\"status\":429,\"detail\":\"Too many verification attempts were made. Retry after the cooldown period.\",\"code\":\"rate_limit_exceeded\"}"
+            },
+            {
+              "id": "95b3b232-eb2e-4d01-a7a4-841a6c56c7ef",
+              "name": "Authenticated caller is not allowed to perform this action.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "verify"
+                  ]
+                },
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\"code\":\"482913\"}"
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/forbidden\",\"title\":\"Forbidden\",\"status\":403,\"detail\":\"You are not permitted to perform this action.\",\"code\":\"forbidden\"}"
             }
           ]
         },
@@ -1238,6 +1841,11 @@
                 "value": "application/json"
               },
               {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
                 "key": "x-mock-response-code",
                 "value": "200",
                 "type": "text"
@@ -1273,6 +1881,11 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
                   }
                 ],
                 "url": {
@@ -1310,6 +1923,11 @@
                   {
                     "key": "Accept",
                     "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
                   }
                 ],
                 "url": {
@@ -1337,6 +1955,133 @@
               ],
               "cookie": [],
               "body": "{\"type\":\"https://boardtpl.dev/problems/email-not-verified\",\"title\":\"Email address is not verified\",\"status\":409,\"detail\":\"Verify this email address before setting it as primary.\",\"code\":\"email_not_verified\"}"
+            },
+            {
+              "id": "2d38991d-ba6c-46e0-96f4-51fe7f68a2fd",
+              "name": "Missing, invalid, or expired bearer access token.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/make-primary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "make-primary"
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/unauthorized\",\"title\":\"Unauthorized\",\"status\":401,\"detail\":\"A valid bearer access token is required.\",\"code\":\"unauthorized\"}"
+            },
+            {
+              "id": "d417bdfe-c204-471c-ac93-3f509c6bf8eb",
+              "name": "Authenticated caller is not allowed to perform this action.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/make-primary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "make-primary"
+                  ]
+                }
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/forbidden\",\"title\":\"Forbidden\",\"status\":403,\"detail\":\"You are not permitted to perform this action.\",\"code\":\"forbidden\"}"
+            },
+            {
+              "id": "db26497d-3cc7-4713-b989-67acad16d281",
+              "name": "Too many requests for this operation. Retry after the cooldown window.",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/make-primary",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "identity",
+                    "me",
+                    "email-addresses",
+                    "489a1540-39f5-499f-a4fd-1874a0136d31",
+                    "make-primary"
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                },
+                {
+                  "key": "Retry-After",
+                  "value": "60"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"type\":\"https://boardtpl.dev/problems/rate-limit-exceeded\",\"title\":\"Too Many Requests\",\"status\":429,\"detail\":\"Too many verification attempts were made. Retry after the cooldown period.\",\"code\":\"rate_limit_exceeded\"}"
             }
           ]
         }
@@ -1587,6 +2332,11 @@
                 "type": "text"
               },
               {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
                 "key": "Content-Type",
                 "value": "application/json",
                 "type": "text"
@@ -1657,6 +2407,11 @@
                 "type": "text"
               },
               {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
                 "key": "x-mock-response-code",
                 "value": "409",
                 "type": "text"
@@ -1712,6 +2467,11 @@
               {
                 "key": "Accept",
                 "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
                 "type": "text"
               },
               {
@@ -1787,6 +2547,11 @@
                 "type": "text"
               },
               {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
                 "key": "x-mock-response-code",
                 "value": "409",
                 "type": "text"
@@ -1811,6 +2576,1032 @@
               ]
             },
             "description": "Mock-only request that forces the email-not-verified (409) example for make-primary."
+          },
+          "response": []
+        },
+        {
+          "name": "Send email verification challenge (Unauthorized 401 example)",
+          "id": "8cafa328-ecef-42b1-956a-6c2b95db9aac",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () { pm.response.to.have.status(401); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Unauthorized problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"unauthorized\");",
+                  "  pm.expect(json.status).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "401",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Missing, invalid, or expired bearer access token.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/send-verification",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "send-verification"
+              ]
+            },
+            "description": "Mock-only request that forces the unauthorized (401) example for send verification challenge."
+          },
+          "response": []
+        },
+        {
+          "name": "Send email verification challenge (Rate limited 429 example)",
+          "id": "b44ce88f-bc67-4cf4-a94b-908a91862b0f",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 429\", function () { pm.response.to.have.status(429); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Rate-limit problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"rate_limit_exceeded\");",
+                  "  pm.expect(json.status).to.eql(429);",
+                  "});",
+                  "pm.test(\"Retry-After header is present\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Retry-After\")).to.exist;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "429",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Too many requests for this operation. Retry after the cooldown window.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/send-verification",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "send-verification"
+              ]
+            },
+            "description": "Mock-only request that forces the rate-limited (429) example for send verification challenge."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify email address (Unauthorized 401 example)",
+          "id": "c4dc3d95-794d-45d1-a6b2-90bc5cf27a3e",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () { pm.response.to.have.status(401); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Unauthorized problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"unauthorized\");",
+                  "  pm.expect(json.status).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "401",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Missing, invalid, or expired bearer access token.",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"000000\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "verify"
+              ]
+            },
+            "description": "Mock-only request that forces the unauthorized (401) example for verify email address."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify email address (Rate limited 429 example)",
+          "id": "af3e01bf-8298-4c5e-8b72-7c19c2a6d453",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 429\", function () { pm.response.to.have.status(429); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Rate-limit problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"rate_limit_exceeded\");",
+                  "  pm.expect(json.status).to.eql(429);",
+                  "});",
+                  "pm.test(\"Retry-After header is present\", function () {",
+                  "  pm.expect(pm.response.headers.get(\"Retry-After\")).to.exist;",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "429",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Too many requests for this operation. Retry after the cooldown window.",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"000000\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "verify"
+              ]
+            },
+            "description": "Mock-only request that forces the rate-limited (429) example for verify email address."
+          },
+          "response": []
+        },
+        {
+          "name": "List my email addresses (Unauthorized 401 example)",
+          "id": "360dd3d2-e339-4720-bc3e-31a1dfb78f3d",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () { pm.response.to.have.status(401); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"unauthorized\");",
+                  "  pm.expect(json.status).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "401",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Missing, invalid, or expired bearer access token.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses"
+              ]
+            },
+            "description": "Mock-only request that forces the unauthorized (401) example for list my email addresses."
+          },
+          "response": []
+        },
+        {
+          "name": "List my email addresses (Forbidden 403 example)",
+          "id": "a66cb181-5bf1-4f5e-a4de-24cfdfcbdbb1",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () { pm.response.to.have.status(403); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"forbidden\");",
+                  "  pm.expect(json.status).to.eql(403);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "403",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Authenticated caller is not allowed to perform this action.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses"
+              ]
+            },
+            "description": "Mock-only request that forces the forbidden (403) example for list my email addresses."
+          },
+          "response": []
+        },
+        {
+          "name": "List my email addresses (Rate limited 429 example)",
+          "id": "c4e8d50f-b7fc-4f04-bf87-6bee8585a1eb",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 429\", function () { pm.response.to.have.status(429); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"rate_limit_exceeded\");",
+                  "  pm.expect(json.status).to.eql(429);",
+                  "});",
+                  "pm.test(\"Retry-After header is present\", function () { pm.expect(pm.response.headers.get(\"Retry-After\")).to.exist; });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "429",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Too many requests for this operation. Retry after the cooldown window.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses"
+              ]
+            },
+            "description": "Mock-only request that forces the rate-limited (429) example for list my email addresses."
+          },
+          "response": []
+        },
+        {
+          "name": "Add email address (Unauthorized 401 example)",
+          "id": "8788939a-b5fd-4be8-b3df-1cc0bddbe1c6",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () { pm.response.to.have.status(401); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"unauthorized\");",
+                  "  pm.expect(json.status).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "401",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Missing, invalid, or expired bearer access token.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses"
+              ]
+            },
+            "description": "Mock-only request that forces the unauthorized (401) example for add email address.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"alex.rivers@example.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add email address (Forbidden 403 example)",
+          "id": "9f8d14d9-1a1a-49a5-8ed6-1f4b49e80401",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () { pm.response.to.have.status(403); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"forbidden\");",
+                  "  pm.expect(json.status).to.eql(403);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "403",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Authenticated caller is not allowed to perform this action.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses"
+              ]
+            },
+            "description": "Mock-only request that forces the forbidden (403) example for add email address.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"alex.rivers@example.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add email address (Rate limited 429 example)",
+          "id": "2c3d51c4-3ee7-4504-b442-d2fcc7f407a8",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 429\", function () { pm.response.to.have.status(429); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"rate_limit_exceeded\");",
+                  "  pm.expect(json.status).to.eql(429);",
+                  "});",
+                  "pm.test(\"Retry-After header is present\", function () { pm.expect(pm.response.headers.get(\"Retry-After\")).to.exist; });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "429",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Too many requests for this operation. Retry after the cooldown window.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses"
+              ]
+            },
+            "description": "Mock-only request that forces the rate-limited (429) example for add email address.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":\"alex.rivers@example.com\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send email verification challenge (Forbidden 403 example)",
+          "id": "3e57a279-340e-4df9-8f59-f7ef602efc0c",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () { pm.response.to.have.status(403); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"forbidden\");",
+                  "  pm.expect(json.status).to.eql(403);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "403",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Authenticated caller is not allowed to perform this action.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/send-verification",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "send-verification"
+              ]
+            },
+            "description": "Mock-only request that forces the forbidden (403) example for send email verification challenge."
+          },
+          "response": []
+        },
+        {
+          "name": "Verify email address (Forbidden 403 example)",
+          "id": "bd93091b-c8e9-4a23-b2f9-395990b9c97e",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () { pm.response.to.have.status(403); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"forbidden\");",
+                  "  pm.expect(json.status).to.eql(403);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "403",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Authenticated caller is not allowed to perform this action.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/verify",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "verify"
+              ]
+            },
+            "description": "Mock-only request that forces the forbidden (403) example for verify email address.",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"code\":\"482913\"}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Make email address primary (Unauthorized 401 example)",
+          "id": "b5270e13-296a-4a9b-9f67-1a28c7c8b781",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 401\", function () { pm.response.to.have.status(401); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"unauthorized\");",
+                  "  pm.expect(json.status).to.eql(401);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "401",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Missing, invalid, or expired bearer access token.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/make-primary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "make-primary"
+              ]
+            },
+            "description": "Mock-only request that forces the unauthorized (401) example for make email address primary."
+          },
+          "response": []
+        },
+        {
+          "name": "Make email address primary (Forbidden 403 example)",
+          "id": "ab7301c4-1d3d-4c16-8e3a-a08ba61402ab",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 403\", function () { pm.response.to.have.status(403); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"forbidden\");",
+                  "  pm.expect(json.status).to.eql(403);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "403",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Authenticated caller is not allowed to perform this action.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/make-primary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "make-primary"
+              ]
+            },
+            "description": "Mock-only request that forces the forbidden (403) example for make email address primary."
+          },
+          "response": []
+        },
+        {
+          "name": "Make email address primary (Rate limited 429 example)",
+          "id": "cf6adb98-a071-431d-b80c-6e45b0605e7a",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {},
+                "exec": [
+                  "pm.test(\"Status code is 429\", function () { pm.response.to.have.status(429); });",
+                  "pm.test(\"Response is JSON\", function () { pm.response.to.be.json; });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Problem details are returned\", function () {",
+                  "  pm.expect(json.code).to.eql(\"rate_limit_exceeded\");",
+                  "  pm.expect(json.status).to.eql(429);",
+                  "});",
+                  "pm.test(\"Retry-After header is present\", function () { pm.expect(pm.response.headers.get(\"Retry-After\")).to.exist; });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-code",
+                "value": "429",
+                "type": "text"
+              },
+              {
+                "key": "x-mock-response-name",
+                "value": "Too many requests for this operation. Retry after the cooldown window.",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/email-addresses/489a1540-39f5-499f-a4fd-1874a0136d31/make-primary",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "email-addresses",
+                "489a1540-39f5-499f-a4fd-1874a0136d31",
+                "make-primary"
+              ]
+            },
+            "description": "Mock-only request that forces the rate-limited (429) example for make email address primary."
           },
           "response": []
         }

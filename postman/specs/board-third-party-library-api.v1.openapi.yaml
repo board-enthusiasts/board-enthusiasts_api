@@ -252,6 +252,12 @@ paths:
                         verified: false
                         isPrimary: false
                         status: pending_verification
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenProblemResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsProblemResponse'
     post:
       tags: [Identity]
       summary: Add email address
@@ -324,6 +330,12 @@ paths:
                     errors:
                       email:
                         - A valid email address is required.
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenProblemResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsProblemResponse'
   /identity/me/email-addresses/{emailAddressId}/make-primary:
     post:
       tags: [Identity]
@@ -395,6 +407,12 @@ paths:
                     status: 409
                     detail: Verify this email address before setting it as primary.
                     code: email_not_verified
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          $ref: '#/components/responses/ForbiddenProblemResponse'
+        '429':
+          $ref: '#/components/responses/TooManyRequestsProblemResponse'
   /identity/me/email-addresses/{emailAddressId}/send-verification:
     post:
       tags: [Identity]
