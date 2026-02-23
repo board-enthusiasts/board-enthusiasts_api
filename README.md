@@ -65,14 +65,13 @@ The contract test collection now includes:
 2. Select `Board Third Party Library - Mock Admin`.
 3. Add your Postman API key to **Postman Vault** as `postman-api-key` (local secret), so the admin collection can use `{{vault:postman-api-key}}`.
 4. Run `Postman Admin - Board Third Party Library Mock Provisioning`:
-   - `Collections / List collections and resolve Contract Tests UID`
-   - `Mocks / Create mock server (Contract Tests collection)`
+   - `Collections / Provision/refresh mock server (one-step)`
 5. The collection test scripts will populate in the **Mock Admin** environment:
    - `contractTestsCollectionUid`
    - `mockId`
    - `mockUrl`
    - `baseUrl` (set to the created mock URL)
-6. The `Create mock server` admin request will also attempt to automatically sync `Board Third Party Library - Mock` `baseUrl` via the Postman API using `mockRuntimeEnvironmentId`.
+6. The one-step admin request will also attempt to automatically sync `Board Third Party Library - Mock` `baseUrl` via the Postman API using `mockRuntimeEnvironmentId` (or resolve the runtime environment ID by name if it is blank).
 7. Run `Board Third Party Library API (Contract Tests)` against `Board Third Party Library - Mock`.
 
 ### If runtime Mock environment auto-sync fails
@@ -80,7 +79,7 @@ The contract test collection now includes:
 Use the `Environments` folder in the Postman admin collection:
 
 1. `Environments / List environments and resolve Mock runtime environment ID`
-2. `Mocks / Create mock server (Contract Tests collection)` (retry; it will auto-sync if `mockRuntimeEnvironmentId` is now resolved)
+2. `Collections / Provision/refresh mock server (one-step)` (retry; it will auto-sync if `mockRuntimeEnvironmentId` is now resolved)
 
 Optional manual fallback:
 
