@@ -59,12 +59,21 @@ The contract test collection now includes:
 
 ### Provision the mock server (code-driven in Postman)
 
-The mock server is provisioned from the **API Builder generated collection** (workspace object), not the Git-tracked Contract Tests collection. This avoids false failures caused by a stale Postman workspace copy of the Contract Tests collection when the repo file is newer.
+The mock server is provisioned from a Postman **workspace collection object** selected by the Mock Admin environment.
+
+Default (recommended for reliability):
+- `Board Third Party Library API (Contract Tests)`
+
+Why:
+- Postman's API Builder generated collection is sometimes visible in the UI but not reliably discoverable via the Postman Collections API (`GET /collections`) used by the admin automation.
+- The one-step admin request now preflights the resolved source collection snapshot (route/example checks) to catch stale workspace objects before they cause false mock test failures.
 
 The Mock Admin environment controls which workspace collection is used as the mock source:
 
-- `mockSourceCollectionName` (default: `Board Third Party Library API (Generated)`)
-- `mockSourceCollectionPostmanId` (optional exact Postman collection ID override if duplicate generated collections exist)
+- `mockSourceCollectionName` (default: `Board Third Party Library API (Contract Tests)`)
+- `mockSourceCollectionPostmanId` (optional exact Postman collection ID override if duplicate collections exist)
+
+If `mockSourceCollectionName` points to a collection that is not discoverable via the Postman API (for example, some API Builder generated collection objects), the one-step admin request will try to fall back to `contractTestsCollectionName` automatically and will set a warning variable.
 
 1. In Postman, import/sync both environments:
    - `Board Third Party Library - Mock` (day-to-day contract test runs)
@@ -72,7 +81,7 @@ The Mock Admin environment controls which workspace collection is used as the mo
 2. Select `Board Third Party Library - Mock Admin`.
 3. Add your Postman API key to **Postman Vault** as `postman-api-key` (local secret), so the admin collection can use `{{vault:postman-api-key}}`.
 4. Enable Vault access for scripts (one-time Postman setup) and grant this collection/workspace access when prompted.
-5. If the OpenAPI spec changed, regenerate the API Builder generated collection first (so the mock source collection is current).
+5. If the OpenAPI spec changed and you use the Generated collection as your mock source, regenerate the API Builder generated collection first.
 6. Run `Postman Admin - Board Third Party Library Mock Provisioning`:
    - `Collections / Provision/refresh mock server (one-step)`
 7. The collection test scripts will populate in the **Mock Admin** environment:
@@ -83,7 +92,7 @@ The Mock Admin environment controls which workspace collection is used as the mo
 8. The one-step admin request will also attempt to automatically sync `Board Third Party Library - Mock` `baseUrl` via the Postman API using `mockRuntimeEnvironmentId` (or resolve the runtime environment ID by name if it is blank).
 9. Run `Board Third Party Library API (Contract Tests)` against `Board Third Party Library - Mock`.
 
-The one-step provisioning request now performs a preflight validation of the resolved mock source collection snapshot (route presence + saved examples for currently required endpoints). If it fails, fix the generated collection/workspace object first instead of trusting mock-based contract test failures.
+The one-step provisioning request performs a preflight validation of the resolved mock source collection snapshot (route presence + saved examples for currently required endpoints). If it fails, fix the mock source collection/workspace object first instead of trusting mock-based contract test failures.
 
 ### If runtime Mock environment auto-sync fails
 
