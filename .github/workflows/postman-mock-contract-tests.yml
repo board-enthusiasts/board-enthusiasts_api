@@ -1,0 +1,269 @@
+name: Postman Mock Contract Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: postman-mock-contract-tests-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  COLLECTION_PATH: postman/collections/board-third-party-library-api.contract-tests.postman_collection.json
+  ENVIRONMENT_PATH: postman/environments/board-third-party-library_mock.postman_environment.json
+  ADMIN_ENVIRONMENT_PATH: postman/environments/board-third-party-library_mock-admin.postman_environment.json
+
+jobs:
+  newman-mock-tests:
+    name: Run Postman mock contract tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Provision mock server for this run
+        id: provision_mock
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          IS_FORK_PR: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.repo.fork }}
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const path = require('path');
+
+          const adminEnvPath = process.env.ADMIN_ENVIRONMENT_PATH;
+          const collectionPath = process.env.COLLECTION_PATH;
+          const apiKey = (process.env.POSTMAN_API_KEY || '').trim();
+          const isForkPr = (process.env.IS_FORK_PR || '').toLowerCase() === 'true';
+          const outputPath = process.env.GITHUB_OUTPUT;
+
+          function writeOutput(key, value) {
+            fs.appendFileSync(outputPath, `${key}=${value}\n`);
+          }
+
+          function getEnvValue(envJson, key) {
+            const found = (envJson.values || []).find((v) => v && v.key === key);
+            return typeof found?.value === 'string' ? found.value.trim() : '';
+          }
+
+          function stripPostmanIds(value) {
+            if (Array.isArray(value)) {
+              return value.map(stripPostmanIds);
+            }
+            if (value && typeof value === 'object') {
+              const result = {};
+              for (const [k, v] of Object.entries(value)) {
+                if (k === 'id' || k === 'uid' || k === '_postman_id') {
+                  continue;
+                }
+                result[k] = stripPostmanIds(v);
+              }
+              return result;
+            }
+            return value;
+          }
+
+          async function main() {
+            if (!apiKey) {
+              if (isForkPr) {
+                console.log('Skipping Newman mock tests for fork PR: POSTMAN_API_KEY secret is unavailable to fork PRs.');
+                writeOutput('should_run', 'false');
+                return;
+              }
+
+              console.error('Missing required repository secret: POSTMAN_API_KEY');
+              process.exit(1);
+            }
+
+            const adminEnv = JSON.parse(fs.readFileSync(adminEnvPath, 'utf8'));
+            const apiBase = getEnvValue(adminEnv, 'postmanApiBaseUrl') || 'https://api.getpostman.com';
+            const workspaceId = getEnvValue(adminEnv, 'workspaceId');
+            const preferredPostmanId =
+              getEnvValue(adminEnv, 'mockSourceCollectionPostmanId') ||
+              getEnvValue(adminEnv, 'contractTestsCollectionPostmanId');
+            const preferredName =
+              getEnvValue(adminEnv, 'mockSourceCollectionName') ||
+              getEnvValue(adminEnv, 'contractTestsCollectionName') ||
+              'Board Third Party Library API (Contract Tests)';
+            const mockServerName = `${getEnvValue(adminEnv, 'mockServerName') || 'Board Third Party Library API Mock'} (CI ${process.env.GITHUB_RUN_ID || 'manual'})`;
+
+            if (!workspaceId) {
+              console.error(`Missing workspaceId in ${path.normalize(adminEnvPath)}`);
+              process.exit(1);
+            }
+            if (!collectionPath || !fs.existsSync(collectionPath)) {
+              console.error(`Collection file not found: ${path.normalize(collectionPath || '')}`);
+              process.exit(1);
+            }
+
+            const headers = {
+              'X-Api-Key': apiKey,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            };
+
+            const listCollectionsRes = await fetch(`${apiBase}/collections`, {
+              method: 'GET',
+              headers: { 'X-Api-Key': apiKey, 'Accept': 'application/json' }
+            });
+
+            if (!listCollectionsRes.ok) {
+              console.error(`Failed to list Postman collections: ${listCollectionsRes.status}`);
+              console.error(await listCollectionsRes.text());
+              process.exit(1);
+            }
+
+            const listCollectionsPayload = await listCollectionsRes.json();
+            const collections = Array.isArray(listCollectionsPayload.collections) ? listCollectionsPayload.collections : [];
+
+            let target = null;
+            if (preferredPostmanId) {
+              target = collections.find((c) => c && String(c.id || '') === preferredPostmanId);
+            }
+            if (!target && preferredName) {
+              target = collections.find((c) => c && c.name === preferredName);
+            }
+
+            if (!target || !target.uid) {
+              console.error(
+                `Unable to resolve mock source collection from Postman API. ` +
+                `Tried id="${preferredPostmanId}" name="${preferredName}".`
+              );
+              process.exit(1);
+            }
+
+            console.log(`Resolved mock source collection: ${target.name} (${target.uid})`);
+
+            const localCollectionRaw = JSON.parse(fs.readFileSync(collectionPath, 'utf8'));
+            const localCollection = stripPostmanIds(localCollectionRaw);
+            const updateCollectionRes = await fetch(`${apiBase}/collections/${encodeURIComponent(target.uid)}`, {
+              method: 'PUT',
+              headers,
+              body: JSON.stringify({ collection: localCollection })
+            });
+
+            if (!updateCollectionRes.ok) {
+              console.error(`Failed to update Postman collection before mock creation: ${updateCollectionRes.status}`);
+              console.error(await updateCollectionRes.text());
+              process.exit(1);
+            }
+
+            console.log(`Updated Postman collection from repo file: ${path.normalize(collectionPath)}`);
+
+            const createMockRes = await fetch(`${apiBase}/mocks?workspace=${encodeURIComponent(workspaceId)}`, {
+              method: 'POST',
+              headers,
+              body: JSON.stringify({
+                mock: {
+                  name: mockServerName,
+                  collection: target.uid,
+                  private: false
+                }
+              })
+            });
+
+            if (!createMockRes.ok) {
+              console.error(`Failed to create Postman mock: ${createMockRes.status}`);
+              console.error(await createMockRes.text());
+              process.exit(1);
+            }
+
+            const createMockPayload = await createMockRes.json();
+            const mock = createMockPayload && createMockPayload.mock;
+            const mockUrl = mock && (mock.mockUrl || mock.url || '');
+            const mockId = mock && (mock.id ? String(mock.id) : '');
+
+            if (!mockUrl) {
+              console.error('Postman mock creation succeeded but no mock URL was returned.');
+              process.exit(1);
+            }
+
+            console.log(`Created mock server for CI run: ${mockUrl}`);
+            writeOutput('should_run', 'true');
+            writeOutput('api_base', String(apiBase));
+            writeOutput('base_url', String(mockUrl));
+            if (mockId) {
+              writeOutput('mock_id', mockId);
+            }
+          }
+
+          main().catch((err) => {
+            console.error(err && err.stack ? err.stack : err);
+            process.exit(1);
+          });
+          NODE
+
+      - name: Run Newman mock contract tests
+        if: steps.provision_mock.outputs.should_run == 'true'
+        run: |
+          mkdir -p newman
+          npx --yes newman@6 run "$COLLECTION_PATH" \
+            -e "$ENVIRONMENT_PATH" \
+            --env-var "baseUrl=${{ steps.provision_mock.outputs.base_url }}" \
+            --reporters cli,junit \
+            --reporter-junit-export newman/results.xml
+
+      - name: Note skipped mock tests (fork PR without secret)
+        if: steps.provision_mock.outputs.should_run == 'false'
+        run: echo "Newman mock contract tests were skipped because POSTMAN_API_KEY is not available for this fork pull request."
+
+      - name: Delete CI mock server
+        if: always() && steps.provision_mock.outputs.mock_id != ''
+        env:
+          POSTMAN_API_KEY: ${{ secrets.POSTMAN_API_KEY }}
+          POSTMAN_API_BASE: ${{ steps.provision_mock.outputs.api_base }}
+          POSTMAN_MOCK_ID: ${{ steps.provision_mock.outputs.mock_id }}
+        run: |
+          node <<'NODE'
+          async function main() {
+            const apiKey = (process.env.POSTMAN_API_KEY || '').trim();
+            const apiBase = (process.env.POSTMAN_API_BASE || 'https://api.getpostman.com').trim();
+            const mockId = (process.env.POSTMAN_MOCK_ID || '').trim();
+
+            if (!apiKey || !mockId) {
+              console.log('Skipping mock cleanup: missing API key or mock id.');
+              return;
+            }
+
+            const url = `${apiBase}/mocks/${encodeURIComponent(mockId)}`;
+            const res = await fetch(url, {
+              method: 'DELETE',
+              headers: {
+                'X-Api-Key': apiKey,
+                'Accept': 'application/json'
+              }
+            });
+
+            if (!res.ok) {
+              console.error(`Failed to delete Postman mock ${mockId}: ${res.status}`);
+              console.error(await res.text());
+              process.exit(1);
+            }
+
+            console.log(`Deleted Postman mock ${mockId}`);
+          }
+
+          main().catch((err) => {
+            console.error(err && err.stack ? err.stack : err);
+            process.exit(1);
+          });
+          NODE
+
+      - name: Upload Newman report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postman-newman-report
+          path: newman/results.xml
+          if-no-files-found: ignore
