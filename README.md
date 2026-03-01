@@ -167,7 +167,7 @@ If `mockSourceCollectionName` points to a collection that is not discoverable vi
    - `mockId`
    - `mockUrl`
    - `baseUrl` (set to the created mock URL)
-8. The one-step admin request will also attempt to automatically sync `Board Third Party Library - Mock` `baseUrl` via the Postman API using `mockRuntimeEnvironmentId` (or resolve the runtime environment ID by name if it is blank).
+8. The one-step admin request will also attempt to automatically sync `Board Third Party Library - Mock` `baseUrl` via the Postman API by resolving the runtime environment from `mockRuntimeEnvironmentName` on each run and then caching the current `mockRuntimeEnvironmentId`.
 9. Run `Board Third Party Library API (Contract Tests)` against `Board Third Party Library - Mock`.
 
 The one-step provisioning request performs a preflight validation of the resolved mock source collection snapshot (route presence + saved examples for currently required endpoints). If it fails, fix the mock source collection/workspace object first instead of trusting mock-based contract test failures.
@@ -179,7 +179,7 @@ If the contract test run fails immediately with a `400` response whose body cont
 Use the `Environments` folder in the Postman admin collection:
 
 1. `Environments / List environments and resolve Mock runtime environment ID`
-2. `Collections / Provision/refresh mock server (one-step)` (retry; it will auto-sync if `mockRuntimeEnvironmentId` is now resolved)
+2. `Collections / Provision/refresh mock server (one-step)` (retry; it will resolve the runtime environment by name and auto-sync `baseUrl`)
 
 Optional manual fallback:
 
@@ -192,6 +192,7 @@ These values are intentionally blank in the versioned **Mock Admin** environment
 - `mockSourceCollectionUid`
 - `mockId`
 - `mockUrl`
+- `mockRuntimeEnvironmentId`
 
 `baseUrl` in **Mock Admin** starts as a placeholder and is overwritten with `mockUrl` by the provisioning collection once the mock is created.
 
