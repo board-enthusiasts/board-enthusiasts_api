@@ -8,6 +8,7 @@ Design and tests for the API for the Board third party library.
 - [GitHub Actions Mock Contract Tests (CI)](#github-actions-mock-contract-tests-ci)
 - [Mock-First Flow](#mock-first-flow)
 - [Repository Files](#repository-files)
+- [Planning Files](#planning-files)
 - [Working Rules](#working-rules)
 
 ## Postman Workflow
@@ -111,28 +112,25 @@ The contract test collection now includes:
 
 ### Auth note for `/identity/me/*` contract tests
 
-The Git-tracked contract test collection now sends `Authorization: Bearer {{accessToken}}` for applicable `/identity/me/*` requests (for example email address management and verification endpoints).
+The Git-tracked contract test collection sends `Authorization: Bearer {{accessToken}}` for authenticated `/identity/me/*` requests.
 
 Environment variables:
 
 - `Board Third Party Library - Mock` includes a non-secret placeholder `accessToken` (mock runs only need a non-empty value when forcing saved examples).
-- `Board Third Party Library - Local` includes `accessToken` as a placeholder that should be replaced with a real local bearer token once backend auth is implemented.
+- `Board Third Party Library - Local` includes `accessToken` as a placeholder that should be replaced with a real Keycloak-issued local bearer token.
 
-Security mock validation coverage is included for current `/identity/me/*` endpoints and exercises saved examples for:
+Security mock validation coverage is included for the current authenticated identity endpoints and exercises saved examples for:
 
 - `401 Unauthorized`
-- `403 Forbidden`
-- `429 Too Many Requests`
 
 ### Wave 1 auth semantics (contract guidance)
 
-The Wave 1 auth/password endpoints are still API-first contract work, but the contract now documents a few important behavioral expectations to keep backend implementation and client behavior aligned:
+Wave 1 authentication is now modeled as a Keycloak-hosted browser flow. The contract documents these expectations so backend implementation and client behavior stay aligned:
 
-- **Login and unverified email**: MVP may allow login before email verification so users can complete `/identity/me/email-addresses/*` verification flows. Clients should still check verification status before enabling sensitive actions.
-- **Refresh token rotation**: `POST /identity/auth/refresh` returns a replacement refresh token. Clients should store the new refresh token and discard the previously used token after a successful refresh.
-- **Logout scope**: `POST /identity/auth/logout` supports a request `scope` (`current_session` default, or `all_sessions`) and is intended to be idempotent for already-revoked session/refresh-token state (while still requiring a valid bearer token to call it).
-- **Password change effects**: successful password changes should invalidate outstanding password-reset challenges and revoke refresh-token/session state.
-- **Password reset security**: password reset requests should be anti-enumeration (generic response), and reset tokens/challenges should be short-lived and one-time-use. A successful reset should invalidate the used token and other outstanding reset challenges for the account.
+- **Hosted registration/login**: `GET /identity/auth/login` redirects callers to Keycloak using authorization code + PKCE. When self-registration is enabled in the realm, users can register from the hosted Keycloak page.
+- **Callback exchange**: `GET /identity/auth/callback` completes the code exchange and returns tokens plus the resolved current-user summary.
+- **Provider brokering**: optional `provider` query input on `GET /identity/auth/login` maps to Keycloak identity-provider hints for future social-login scenarios.
+- **Account lifecycle ownership**: password reset, email verification, and external identity linking are Keycloak concerns and are no longer modeled as first-party API endpoints in this contract.
 
 ### Provision the mock server (code-driven in Postman)
 
@@ -216,6 +214,10 @@ Then most day-to-day work only needs the `Board Third Party Library - Mock` envi
 - `postman/environments/`: Non-secret environment templates
 - `postman/globals/`: Workspace globals when needed
 - `.postman/config.json`: Postman Native Git workspace metadata and tracked artifact paths
+
+## Planning Files
+
+- `planning/`: historical planning/context artifacts that are not the maintained API contract
 
 ## Working Rules
 

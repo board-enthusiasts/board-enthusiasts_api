@@ -55,6 +55,7 @@ Prefer this layout as the API grows:
 - `postman/collections/` for Git-tracked workflow/contract test collections (not API Builder generated duplicates)
 - `postman/environments/` for non-secret environment templates
 - `postman/globals/` only when truly needed
+- `planning/` for historical planning/context artifacts that are not the current contract source of truth
 - `.postman/config.json` for Postman workspace/repo metadata
 
 ## Postman Standards (for this project)

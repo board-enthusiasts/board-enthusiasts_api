@@ -264,20 +264,20 @@
                   "  if (!collectionObj || !Array.isArray(collectionObj.item)) { return; }",
                   "",
                   "  var requests = flattenRequests(collectionObj.item, []);",
-                  "  var listEmailsReq = requests.find(function (r) { return r && r.request && r.request.method === \"GET\" && requestPathRaw(r).indexOf(\"/identity/me/email-addresses\") >= 0 && requestPathRaw(r).indexOf(\"make-primary\") < 0; });",
-                  "  var addEmailReq = requests.find(function (r) { return r && r.request && r.request.method === \"POST\" && requestPathRaw(r).indexOf(\"/identity/me/email-addresses\") >= 0 && requestPathRaw(r).indexOf(\"make-primary\") < 0; });",
-                  "  var makePrimaryReq = requests.find(function (r) { return r && r.request && r.request.method === \"POST\" && requestPathRaw(r).indexOf(\"/identity/me/email-addresses/\") >= 0 && requestPathRaw(r).indexOf(\"/make-primary\") >= 0; });",
+                  "  var authConfigReq = requests.find(function (r) { return r && r.request && r.request.method === \"GET\" && requestPathRaw(r).indexOf(\"/identity/auth/config\") >= 0; });",
+                  "  var loginReq = requests.find(function (r) { return r && r.request && r.request.method === \"GET\" && requestPathRaw(r).indexOf(\"/identity/auth/login\") >= 0; });",
+                  "  var currentUserReq = requests.find(function (r) { return r && r.request && r.request.method === \"GET\" && requestPathRaw(r).indexOf(\"/identity/me\") >= 0 && requestPathRaw(r).indexOf(\"board-profile\") < 0; });",
                   "",
-                  "  pm.test(\"Resolved Mock source collection contains email management routes\", function () {",
-                  "    pm.expect(listEmailsReq, \"Missing GET /identity/me/email-addresses in resolved mock source collection snapshot (refresh the mock source collection/workspace object and retry)\").to.exist;",
-                  "    pm.expect(addEmailReq, \"Missing POST /identity/me/email-addresses in resolved mock source collection snapshot (refresh the mock source collection/workspace object and retry)\").to.exist;",
-                  "    pm.expect(makePrimaryReq, \"Missing POST /identity/me/email-addresses/{id}/make-primary in resolved mock source collection snapshot (refresh the mock source collection/workspace object and retry)\").to.exist;",
+                  "  pm.test(\"Resolved Mock source collection contains Keycloak auth routes\", function () {",
+                  "    pm.expect(authConfigReq, \"Missing GET /identity/auth/config in resolved mock source collection snapshot (refresh the mock source collection/workspace object and retry)\").to.exist;",
+                  "    pm.expect(loginReq, \"Missing GET /identity/auth/login in resolved mock source collection snapshot (refresh the mock source collection/workspace object and retry)\").to.exist;",
+                  "    pm.expect(currentUserReq, \"Missing GET /identity/me in resolved mock source collection snapshot (refresh the mock source collection/workspace object and retry)\").to.exist;",
                   "  });",
                   "",
-                  "  pm.test(\"Resolved Mock source collection contains saved mock responses for email routes\", function () {",
-                  "    pm.expect(Array.isArray(listEmailsReq && listEmailsReq.response) && listEmailsReq.response.length > 0, \"No saved examples on GET /identity/me/email-addresses in resolved mock source collection (refresh the mock source collection/workspace object and retry)\").to.eql(true);",
-                  "    pm.expect(Array.isArray(addEmailReq && addEmailReq.response) && addEmailReq.response.length > 0, \"No saved examples on POST /identity/me/email-addresses in resolved mock source collection (refresh the mock source collection/workspace object and retry)\").to.eql(true);",
-                  "    pm.expect(Array.isArray(makePrimaryReq && makePrimaryReq.response) && makePrimaryReq.response.length > 0, \"No saved examples on POST /identity/me/email-addresses/{id}/make-primary in resolved mock source collection (refresh the mock source collection/workspace object and retry)\").to.eql(true);",
+                  "  pm.test(\"Resolved Mock source collection contains saved mock responses for Keycloak auth routes\", function () {",
+                  "    pm.expect(Array.isArray(authConfigReq && authConfigReq.response) && authConfigReq.response.length > 0, \"No saved examples on GET /identity/auth/config in resolved mock source collection (refresh the mock source collection/workspace object and retry)\").to.eql(true);",
+                  "    pm.expect(Array.isArray(loginReq && loginReq.response) && loginReq.response.length > 0, \"No saved examples on GET /identity/auth/login in resolved mock source collection (refresh the mock source collection/workspace object and retry)\").to.eql(true);",
+                  "    pm.expect(Array.isArray(currentUserReq && currentUserReq.response) && currentUserReq.response.length > 0, \"No saved examples on GET /identity/me in resolved mock source collection (refresh the mock source collection/workspace object and retry)\").to.eql(true);",
                   "  });",
                   "",
                   "  createMockFromResolvedCollection();",
@@ -648,3 +648,5 @@
     }
   ]
 }
+
+

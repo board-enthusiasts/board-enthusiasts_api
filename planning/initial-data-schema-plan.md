@@ -17,6 +17,12 @@
 
 It exists to preserve important design intent from early API-first and schema planning discussions so future agents/developers have context for why certain entities/relationships were proposed.
 
+Important current-state note:
+
+- this historical plan predates the move to Keycloak-backed authentication
+- Keycloak now owns credentials, email verification, external identity providers, and platform role assignment
+- the current backend schema direction should not be expected to include `user_password_credentials`, `user_email_addresses`, or `user_external_identities` as primary auth tables
+
 Use this document for:
 
 - historical planning context
@@ -30,7 +36,8 @@ Do **not** use this document as the authoritative definition of current tables/c
 Current authoritative sources should be treated as:
 
 - API contract: [`api/postman/specs/board-third-party-library-api.v1.openapi.yaml`](../postman/specs/board-third-party-library-api.v1.openapi.yaml)
-- Backend schema implementation plan (high-level implementation sequencing): [`backend/docs/mvp-schema-implementation-plan.md`](../../backend/docs/mvp-schema-implementation-plan.md)
+- Backend schema implementation plan (high-level implementation sequencing): [`backend/planning/mvp-schema-implementation-plan.md`](../../backend/planning/mvp-schema-implementation-plan.md)
+- Developer-facing data ownership guide: [`backend/docs/auth-data-ownership.md`](../../backend/docs/auth-data-ownership.md)
 - Implemented backend code/migrations (when present): backend EF Core model + migrations in the `backend` submodule
 
 ## Planning Scope (What This Initial Plan Covered)
@@ -188,7 +195,7 @@ Conceptually, the plan assumed relationships like:
 
 This initial plan was intended to align with the backend implementation waves captured later in:
 
-- [`backend/docs/mvp-schema-implementation-plan.md`](../../backend/docs/mvp-schema-implementation-plan.md)
+- [`backend/planning/mvp-schema-implementation-plan.md`](../../backend/planning/mvp-schema-implementation-plan.md)
 
 High-level sequence discussed:
 
