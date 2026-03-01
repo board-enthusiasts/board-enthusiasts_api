@@ -94,4 +94,5 @@ Prefer this layout as the API grows:
 - Work from a branch, commit the finished change set, push it, and open or update a PR.
 - Wait for the relevant GitHub workflow runs, inspect failures, and push fixes until the branch is green.
 - Merge to `main` only after the required checks pass.
+- After the PR is merged, delete the merged branch locally and remotely, prune stale remote refs, and leave the repository on a clean `main` tracking `origin/main`.
 - Update this `AGENTS.md` as the API-first workflow evolves (tooling conventions, sync rules, versioning rules).
