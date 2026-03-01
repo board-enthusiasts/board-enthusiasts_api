@@ -1700,6 +1700,850 @@
       "id": "9d912aa3-c913-445f-b6ee-635319e17b8e"
     },
     {
+      "name": "Catalog",
+      "item": [
+        {
+          "name": "List public catalog titles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Titles array is present\", function () { pm.expect(json.titles).to.be.an(\"array\"); });"
+                ]
+              }
+            }
+          ],
+          "id": "38d31f5d-91b7-4334-a562-34a4ce642301",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog?organizationSlug={{organizationSlug}}&contentKind=game",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "catalog"
+              ],
+              "query": [
+                {
+                  "key": "organizationSlug",
+                  "value": "{{organizationSlug}}"
+                },
+                {
+                  "key": "contentKind",
+                  "value": "game"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "b00d6b1a-00d8-4d7a-93cf-43615c9db42c",
+              "name": "default",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/catalog?organizationSlug=stellar-forge&contentKind=game",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "catalog"
+                  ],
+                  "query": [
+                    {
+                      "key": "organizationSlug",
+                      "value": "stellar-forge"
+                    },
+                    {
+                      "key": "contentKind",
+                      "value": "game"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"titles\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"listed\",\"currentMetadataRevision\":2,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\"}]}"
+            }
+          ]
+        },
+        {
+          "name": "Get public catalog title",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var organizationSlug = pm.environment.get(\"organizationSlug\") || \"\";",
+                  "var titleSlug = pm.environment.get(\"titleSlug\") || \"\";",
+                  "var hasOrganizationSlug = Boolean(organizationSlug && organizationSlug.indexOf(\"{{\") !== 0 && organizationSlug.indexOf(\"replace-with-\") !== 0);",
+                  "var hasTitleSlug = Boolean(titleSlug && titleSlug.indexOf(\"{{\") !== 0 && titleSlug.indexOf(\"replace-with-\") !== 0);",
+                  "if (!hasOrganizationSlug || !hasTitleSlug) {",
+                  "  pm.test(\"Get public catalog title skipped without organization and title slugs\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Catalog title slug matches environment\", function () { pm.expect(json.title.slug).to.eql(pm.environment.get(\"titleSlug\")); });"
+                ]
+              }
+            }
+          ],
+          "id": "c447ce55-0f1e-4c7f-ae36-e260f03d5fa9",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/{{organizationSlug}}/{{titleSlug}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "catalog",
+                "{{organizationSlug}}",
+                "{{titleSlug}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6718a59c-e018-4f6b-bdbb-cb4d2f4b7210",
+              "name": "default",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/catalog/stellar-forge/star-blasters",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "catalog",
+                    "stellar-forge",
+                    "star-blasters"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"title\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"unlisted\",\"currentMetadataRevision\":2,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Pilot colorful starships through family-friendly arena battles built for the Board console.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:10:00Z\"}}"
+            }
+          ]
+        },
+        {
+          "name": "List organization titles",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var organizationId = pm.environment.get(\"organizationId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasOrganizationId = Boolean(organizationId && organizationId.indexOf(\"{{\") !== 0 && organizationId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasOrganizationId)) {",
+                  "  pm.test(\"List organization titles success flow skipped without bearer token and organization ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Titles array is present\", function () { pm.expect(json.titles).to.be.an(\"array\"); });"
+                ]
+              }
+            }
+          ],
+          "id": "ed9adb31-694f-4f2d-94d4-b2aa7d14d050",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/developer/organizations/{{organizationId}}/titles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "organizations",
+                "{{organizationId}}",
+                "titles"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4d287f03-be89-44dc-b739-2cbd236fa319",
+              "name": "default",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/developer/organizations/11111111-1111-1111-1111-111111111111/titles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "organizations",
+                    "11111111-1111-1111-1111-111111111111",
+                    "titles"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"titles\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"listed\",\"currentMetadataRevision\":2,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\"}]}"
+            }
+          ]
+        },
+        {
+          "name": "Create title",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var organizationId = pm.environment.get(\"organizationId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasOrganizationId = Boolean(organizationId && organizationId.indexOf(\"{{\") !== 0 && organizationId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasOrganizationId)) {",
+                  "  pm.test(\"Create title success flow skipped without bearer token and organization ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Created title slug matches request\", function () { pm.expect(json.title.slug).to.eql(pm.environment.get(\"titleSlug\") || \"star-blasters\"); });"
+                ]
+              }
+            }
+          ],
+          "id": "1ef18d97-d0af-462e-9bc1-0842f313c61d",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"{{titleSlug}}\",\n  \"contentKind\": \"game\",\n  \"lifecycleStatus\": \"draft\",\n  \"visibility\": \"private\",\n  \"metadata\": {\n    \"displayName\": \"Star Blasters\",\n    \"shortDescription\": \"Family space battles in short rounds.\",\n    \"description\": \"Pilot colorful starships through family-friendly arena battles built for the Board console.\",\n    \"genreDisplay\": \"Arcade Shooter\",\n    \"minPlayers\": 1,\n    \"maxPlayers\": 4,\n    \"ageRatingAuthority\": \"ESRB\",\n    \"ageRatingValue\": \"E10+\",\n    \"minAgeYears\": 10\n  }\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/developer/organizations/{{organizationId}}/titles",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "organizations",
+                "{{organizationId}}",
+                "titles"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "6f292d2e-b0d6-42d0-bf3f-dd20c57fbc4f",
+              "name": "default",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"star-blasters\",\n  \"contentKind\": \"game\",\n  \"lifecycleStatus\": \"draft\",\n  \"visibility\": \"private\",\n  \"metadata\": {\n    \"displayName\": \"Star Blasters\",\n    \"shortDescription\": \"Family space battles in short rounds.\",\n    \"description\": \"Pilot colorful starships through family-friendly arena battles built for the Board console.\",\n    \"genreDisplay\": \"Arcade Shooter\",\n    \"minPlayers\": 1,\n    \"maxPlayers\": 4,\n    \"ageRatingAuthority\": \"ESRB\",\n    \"ageRatingValue\": \"E10+\",\n    \"minAgeYears\": 10\n  }\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/developer/organizations/11111111-1111-1111-1111-111111111111/titles",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "organizations",
+                    "11111111-1111-1111-1111-111111111111",
+                    "titles"
+                  ]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"title\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"draft\",\"visibility\":\"private\",\"currentMetadataRevision\":1,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Pilot colorful starships through family-friendly arena battles built for the Board console.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:00:00Z\"}}"
+            }
+          ]
+        },
+        {
+          "name": "Get title",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var titleId = pm.environment.get(\"titleId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasTitleId = Boolean(titleId && titleId.indexOf(\"{{\") !== 0 && titleId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasTitleId)) {",
+                  "  pm.test(\"Get title success flow skipped without bearer token and title ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "id": "634ad564-8a0b-4c73-af6c-a26afe43b58c",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "bcb8db6c-8220-42c6-bd54-02234d58e45e",
+              "name": "default",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/developer/titles/33333333-3333-3333-3333-333333333333",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "titles",
+                    "33333333-3333-3333-3333-333333333333"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"title\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"listed\",\"currentMetadataRevision\":2,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Updated testing copy after first public feedback round.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:10:00Z\"}}"
+            }
+          ]
+        },
+        {
+          "name": "Update title",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var titleId = pm.environment.get(\"titleId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasTitleId = Boolean(titleId && titleId.indexOf(\"{{\") !== 0 && titleId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasTitleId)) {",
+                  "  pm.test(\"Update title success flow skipped without bearer token and title ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "id": "f1baebf5-ec4f-4a09-a5c2-b1c34909c195",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"slug\": \"{{titleSlug}}\",\n  \"contentKind\": \"game\",\n  \"lifecycleStatus\": \"testing\",\n  \"visibility\": \"listed\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "4046205c-fd49-4276-a7dd-3afc1f18a58f",
+              "name": "default",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"slug\": \"star-blasters\",\n  \"contentKind\": \"game\",\n  \"lifecycleStatus\": \"testing\",\n  \"visibility\": \"listed\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/developer/titles/33333333-3333-3333-3333-333333333333",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "titles",
+                    "33333333-3333-3333-3333-333333333333"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"title\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"listed\",\"currentMetadataRevision\":1,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Pilot colorful starships through family-friendly arena battles built for the Board console.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:05:00Z\"}}"
+            }
+          ]
+        },
+        {
+          "name": "Update current title metadata",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var titleId = pm.environment.get(\"titleId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasTitleId = Boolean(titleId && titleId.indexOf(\"{{\") !== 0 && titleId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasTitleId)) {",
+                  "  pm.test(\"Update current title metadata success flow skipped without bearer token and title ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ],
+          "id": "9b981533-2b57-4d9d-b911-112c2bf6e3e2",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"displayName\": \"Star Blasters\",\n  \"shortDescription\": \"Family space battles in short rounds.\",\n  \"description\": \"Updated testing copy after first public feedback round.\",\n  \"genreDisplay\": \"Arcade Shooter\",\n  \"minPlayers\": 1,\n  \"maxPlayers\": 4,\n  \"ageRatingAuthority\": \"ESRB\",\n  \"ageRatingValue\": \"E10+\",\n  \"minAgeYears\": 10\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}/metadata/current",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}",
+                "metadata",
+                "current"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "7a15aebb-447b-4aa0-955b-4375a8c16858",
+              "name": "default",
+              "originalRequest": {
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"displayName\": \"Star Blasters\",\n  \"shortDescription\": \"Family space battles in short rounds.\",\n  \"description\": \"Updated testing copy after first public feedback round.\",\n  \"genreDisplay\": \"Arcade Shooter\",\n  \"minPlayers\": 1,\n  \"maxPlayers\": 4,\n  \"ageRatingAuthority\": \"ESRB\",\n  \"ageRatingValue\": \"E10+\",\n  \"minAgeYears\": 10\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/developer/titles/33333333-3333-3333-3333-333333333333/metadata/current",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "titles",
+                    "33333333-3333-3333-3333-333333333333",
+                    "metadata",
+                    "current"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"title\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"listed\",\"currentMetadataRevision\":2,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Updated testing copy after first public feedback round.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:10:00Z\"}}"
+            }
+          ]
+        },
+        {
+          "name": "List title metadata revisions",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var titleId = pm.environment.get(\"titleId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasTitleId = Boolean(titleId && titleId.indexOf(\"{{\") !== 0 && titleId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasTitleId)) {",
+                  "  pm.test(\"List title metadata revisions success flow skipped without bearer token and title ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Metadata versions array is present\", function () { pm.expect(json.metadataVersions).to.be.an(\"array\"); });"
+                ]
+              }
+            }
+          ],
+          "id": "8cb3d7cd-3bb0-40e1-812b-5cd2b13177e7",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}/metadata-versions",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}",
+                "metadata-versions"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0579b9ad-d97b-4b46-a7a6-557a8e849346",
+              "name": "default",
+              "originalRequest": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/developer/titles/33333333-3333-3333-3333-333333333333/metadata-versions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "titles",
+                    "33333333-3333-3333-3333-333333333333",
+                    "metadata-versions"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"metadataVersions\":[{\"revisionNumber\":1,\"isCurrent\":false,\"isFrozen\":true,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Original testing copy for the first public build.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:00:00Z\"},{\"revisionNumber\":2,\"isCurrent\":true,\"isFrozen\":true,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Updated testing copy after first public feedback round.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:10:00Z\",\"updatedAt\":\"2026-03-02T18:10:00Z\"}]}"
+            }
+          ]
+        },
+        {
+          "name": "Activate metadata revision",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "var mode = (pm.environment.get(\"contractExecutionMode\") || \"live\").toLowerCase();",
+                  "var token = pm.environment.get(\"accessToken\") || \"\";",
+                  "var titleId = pm.environment.get(\"titleId\") || \"\";",
+                  "var hasRealAccessToken = Boolean(token && token.indexOf(\"{{\") !== 0 && token.indexOf(\"replace-with-\") !== 0 && (mode === \"mock\" || token !== \"mock-access-token\"));",
+                  "var hasTitleId = Boolean(titleId && titleId.indexOf(\"{{\") !== 0 && titleId.indexOf(\"replace-with-\") !== 0);",
+                  "if (mode !== \"mock\" && (!hasRealAccessToken || !hasTitleId)) {",
+                  "  pm.test(\"Activate metadata revision success flow skipped without bearer token and title ID\", function () { pm.expect(true).to.eql(true); });",
+                  "  return;",
+                  "}",
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Current metadata revision changed to 1\", function () { pm.expect(json.title.currentMetadataRevision).to.eql(1); });"
+                ]
+              }
+            }
+          ],
+          "id": "2a6709ca-2a2d-4aa8-8690-3756e1a4e410",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}/metadata-versions/1/activate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}",
+                "metadata-versions",
+                "1",
+                "activate"
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "be9e57e7-e728-4bc6-9dc7-15d2fd4bc4dd",
+              "name": "default",
+              "originalRequest": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{accessToken}}",
+                    "type": "text"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/developer/titles/33333333-3333-3333-3333-333333333333/metadata-versions/1/activate",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "developer",
+                    "titles",
+                    "33333333-3333-3333-3333-333333333333",
+                    "metadata-versions",
+                    "1",
+                    "activate"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "Text",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "cookie": [],
+              "body": "{\"title\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"organizationId\":\"11111111-1111-1111-1111-111111111111\",\"organizationSlug\":\"stellar-forge\",\"slug\":\"star-blasters\",\"contentKind\":\"game\",\"lifecycleStatus\":\"testing\",\"visibility\":\"listed\",\"currentMetadataRevision\":1,\"displayName\":\"Star Blasters\",\"shortDescription\":\"Family space battles in short rounds.\",\"description\":\"Original testing copy for the first public build.\",\"genreDisplay\":\"Arcade Shooter\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-02T18:00:00Z\",\"updatedAt\":\"2026-03-02T18:15:00Z\"}}"
+            }
+          ]
+        }
+      ],
+      "id": "f63bd3ef-0c45-4d42-9aec-06c7a86617ab"
+    },
+    {
       "name": "Mock Validation",
       "item": [
         {
