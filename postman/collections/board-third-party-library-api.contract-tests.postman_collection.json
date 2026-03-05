@@ -240,7 +240,7 @@
                 "exec": [
                   "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
                   "var json = pm.response.json();",
-                  "pm.test(\"Four platform roles are returned\", function () { pm.expect(json.roles.length).to.eql(4); });"
+                  "pm.test(\"Six platform roles are returned\", function () { pm.expect(json.roles.length).to.eql(6); });"
                 ]
               }
             }
@@ -291,7 +291,7 @@
                 }
               ],
               "cookie": [],
-              "body": "{\"roles\":[{\"code\":\"player\",\"displayName\":\"Player\",\"scope\":\"platform\"},{\"code\":\"developer\",\"displayName\":\"Developer\",\"scope\":\"platform\"},{\"code\":\"admin\",\"displayName\":\"Admin\",\"scope\":\"platform\"},{\"code\":\"moderator\",\"displayName\":\"Moderator\",\"scope\":\"platform\"}]}"
+              "body": "{\"roles\":[{\"code\":\"player\",\"displayName\":\"Player\",\"scope\":\"platform\"},{\"code\":\"developer\",\"displayName\":\"Developer\",\"scope\":\"platform\"},{\"code\":\"verified_developer\",\"displayName\":\"VerifiedDeveloper\",\"scope\":\"platform\"},{\"code\":\"super_admin\",\"displayName\":\"SuperAdmin\",\"scope\":\"platform\"},{\"code\":\"admin\",\"displayName\":\"Admin\",\"scope\":\"platform\"},{\"code\":\"moderator\",\"displayName\":\"Moderator\",\"scope\":\"platform\"}]}"
             }
           ]
         },
