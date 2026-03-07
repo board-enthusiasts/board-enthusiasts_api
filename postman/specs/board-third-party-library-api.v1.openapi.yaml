@@ -298,6 +298,78 @@ paths:
                     roles: [admin, developer, player]
         '401':
           $ref: '#/components/responses/UnauthorizedProblemResponse'
+  /identity/me/notifications:
+    get:
+      tags: [Identity]
+      summary: List current-user notifications
+      operationId: listMyNotifications
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: '#/components/parameters/PostmanMockResponseCodeHeader'
+        - $ref: '#/components/parameters/PostmanMockResponseNameHeader'
+      responses:
+        '200':
+          description: Notifications returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotificationListResponse'
+              examples:
+                default:
+                  value:
+                    notifications:
+                      - id: 12121212-1212-1212-1212-121212121212
+                        category: title_report
+                        title: Developer reply received
+                        body: Developer One replied on Star Blasters.
+                        actionUrl: /moderate?workflow=reports-review&reportId=66666666-6666-6666-6666-666666666666
+                        isRead: false
+                        readAt: null
+                        createdAt: '2026-03-05T10:15:00Z'
+                        updatedAt: '2026-03-05T10:15:00Z'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+  /identity/me/notifications/{notificationId}/read:
+    post:
+      tags: [Identity]
+      summary: Mark current-user notification as read
+      operationId: markMyNotificationRead
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: notificationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Notification identifier.
+        - $ref: '#/components/parameters/PostmanMockResponseCodeHeader'
+        - $ref: '#/components/parameters/PostmanMockResponseNameHeader'
+      responses:
+        '200':
+          description: Notification marked as read.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotificationResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '404':
+          description: Notification not found for the current user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemDetails'
+              examples:
+                not-found:
+                  value:
+                    type: https://boardtpl.dev/problems/notification-not-found
+                    title: Notification not found
+                    status: 404
+                    detail: The requested notification does not exist for the current user.
+                    code: notification_not_found
   /identity/me/profile:
     get:
       tags: [Identity]
@@ -530,6 +602,233 @@ paths:
                     status: 502
                     detail: Keycloak role assignment failed for the authenticated user.
                     code: keycloak_developer_enrollment_failed
+  /player/library:
+    get:
+      tags: [Player]
+      summary: List titles in the current player's library
+      operationId: listPlayerLibrary
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Player library returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerTitleListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+  /player/library/titles/{titleId}:
+    put:
+      tags: [Player]
+      summary: Add a title to the current player's library
+      operationId: addPlayerLibraryTitle
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Library state updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerCollectionMutationResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '404':
+          description: Title not found.
+    delete:
+      tags: [Player]
+      summary: Remove a title from the current player's library
+      operationId: removePlayerLibraryTitle
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Library state updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerCollectionMutationResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+  /player/wishlist:
+    get:
+      tags: [Player]
+      summary: List titles in the current player's wishlist
+      operationId: listPlayerWishlist
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Player wishlist returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerTitleListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+  /player/wishlist/titles/{titleId}:
+    put:
+      tags: [Player]
+      summary: Add a title to the current player's wishlist
+      operationId: addPlayerWishlistTitle
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Wishlist state updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerCollectionMutationResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '404':
+          description: Title not found.
+    delete:
+      tags: [Player]
+      summary: Remove a title from the current player's wishlist
+      operationId: removePlayerWishlistTitle
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Wishlist state updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerCollectionMutationResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+  /player/reports:
+    get:
+      tags: [Player]
+      summary: List title reports submitted by the current player
+      operationId: listPlayerTitleReports
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Player title reports returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerTitleReportListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+    post:
+      tags: [Player]
+      summary: Report a title for moderator review
+      operationId: createPlayerTitleReport
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlayerTitleReportRequest'
+      responses:
+        '201':
+          description: Title report submitted successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerTitleReportResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '404':
+          description: Title not found.
+        '409':
+          description: The player already has an open report for this title.
+  /player/reports/{reportId}:
+    get:
+      tags: [Player]
+      summary: Get a title report thread for the reporting player
+      operationId: getPlayerTitleReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Player title report detail returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller did not create the specified title report.
+        '404':
+          description: Title report not found.
+  /player/reports/{reportId}/messages:
+    post:
+      tags: [Player]
+      summary: Add a player message to a title report thread
+      operationId: addPlayerTitleReportMessage
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTitleReportMessageRequest'
+      responses:
+        '200':
+          description: Player title report detail returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller did not create the specified title report.
+        '404':
+          description: Title report not found.
   /moderation/developers:
     get:
       tags: [Moderation]
@@ -756,6 +1055,150 @@ paths:
                     status: 502
                     detail: Keycloak role assignment update failed for the target user.
                     code: keycloak_verified_developer_role_failed
+  /moderation/title-reports:
+    get:
+      tags: [Moderation]
+      summary: List reported titles for moderator review
+      operationId: listModerationTitleReports
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Title reports returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have moderation access.
+  /moderation/title-reports/{reportId}:
+    get:
+      tags: [Moderation]
+      summary: Get title report detail for moderator review
+      operationId: getModerationTitleReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Title report detail returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have moderation access.
+        '404':
+          description: Title report not found.
+  /moderation/title-reports/{reportId}/messages:
+    post:
+      tags: [Moderation]
+      summary: Add a moderator message to a title report thread
+      operationId: addModerationTitleReportMessage
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddModerationTitleReportMessageRequest'
+      responses:
+        '200':
+          description: Title report detail returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have moderation access.
+        '404':
+          description: Title report not found.
+  /moderation/title-reports/{reportId}/validate:
+    post:
+      tags: [Moderation]
+      summary: Validate a title report and remove the title from public catalog visibility
+      operationId: validateModerationTitleReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModerateTitleReportDecisionRequest'
+      responses:
+        '200':
+          description: Title report resolved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have moderation access.
+        '404':
+          description: Title report not found.
+  /moderation/title-reports/{reportId}/invalidate:
+    post:
+      tags: [Moderation]
+      summary: Invalidate a title report and close the report without removing the title
+      operationId: invalidateModerationTitleReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModerateTitleReportDecisionRequest'
+      responses:
+        '200':
+          description: Title report resolved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have moderation access.
+        '404':
+          description: Title report not found.
   /identity/me/board-profile:
     get:
       tags: [Identity]
@@ -1620,6 +2063,7 @@ paths:
                         contentKind: game
                         lifecycleStatus: testing
                         visibility: listed
+                        isReported: false
                         currentMetadataRevision: 2
                         displayName: Star Blasters
                         shortDescription: Family space battles in short rounds.
@@ -1957,6 +2401,7 @@ paths:
                       contentKind: game
                       lifecycleStatus: testing
                       visibility: unlisted
+                      isReported: true
                       currentMetadataRevision: 2
                       displayName: Star Blasters
                       shortDescription: Family space battles in short rounds.
@@ -2003,6 +2448,105 @@ paths:
                       updatedAt: '2026-03-02T18:10:00Z'
         '404':
           description: Catalog title not found.
+  /developer/titles/{titleId}/reports:
+    get:
+      tags: [Developer]
+      summary: List title reports visible to the managing developer
+      operationId: listDeveloperTitleReports
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Title reports returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not manage this title.
+        '404':
+          description: Title not found.
+  /developer/titles/{titleId}/reports/{reportId}:
+    get:
+      tags: [Developer]
+      summary: Get title report detail visible to the managing developer
+      operationId: getDeveloperTitleReport
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Title report detail returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not manage this title.
+        '404':
+          description: Title or report not found.
+  /developer/titles/{titleId}/reports/{reportId}/messages:
+    post:
+      tags: [Developer]
+      summary: Add a developer response to a title report thread
+      operationId: addDeveloperTitleReportMessage
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: titleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddTitleReportMessageRequest'
+      responses:
+        '200':
+          description: Title report detail returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TitleReportDetailResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not manage this title.
+        '404':
+          description: Title or report not found.
   /developer/titles/{titleId}/integration-bindings:
     get:
       tags: [Acquisition]
@@ -2268,6 +2812,7 @@ paths:
                         contentKind: game
                         lifecycleStatus: testing
                         visibility: listed
+                        isReported: false
                         currentMetadataRevision: 2
                         displayName: Star Blasters
                         shortDescription: Family space battles in short rounds.
@@ -2342,6 +2887,7 @@ paths:
                       contentKind: game
                       lifecycleStatus: draft
                       visibility: private
+                      isReported: false
                       currentMetadataRevision: 1
                       displayName: Star Blasters
                       shortDescription: Family space battles in short rounds.
@@ -3585,6 +4131,48 @@ components:
           type: array
           items:
             type: string
+    UserNotification:
+      type: object
+      required: [id, category, title, body, isRead, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        category:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
+        actionUrl:
+          type: string
+          nullable: true
+        isRead:
+          type: boolean
+        readAt:
+          type: string
+          format: date-time
+          nullable: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    UserNotificationListResponse:
+      type: object
+      required: [notifications]
+      properties:
+        notifications:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserNotification'
+    UserNotificationResponse:
+      type: object
+      required: [notification]
+      properties:
+        notification:
+          $ref: '#/components/schemas/UserNotification'
     UserProfile:
       type: object
       required: [subject, emailVerified, initials, updatedAt]
@@ -3718,6 +4306,227 @@ components:
       properties:
         verifiedDeveloperRoleState:
           $ref: '#/components/schemas/VerifiedDeveloperRoleState'
+    PlayerTitleListResponse:
+      type: object
+      required: [titles]
+      properties:
+        titles:
+          type: array
+          items:
+            $ref: '#/components/schemas/CatalogTitleSummary'
+    PlayerCollectionMutationResponse:
+      type: object
+      required: [titleId, present, alreadyInRequestedState]
+      properties:
+        titleId:
+          type: string
+          format: uuid
+        present:
+          type: boolean
+        alreadyInRequestedState:
+          type: boolean
+    CreatePlayerTitleReportRequest:
+      type: object
+      required: [titleId, reason]
+      properties:
+        titleId:
+          type: string
+          format: uuid
+        reason:
+          type: string
+    PlayerTitleReportSummary:
+      type: object
+      required: [id, titleId, studioSlug, titleSlug, titleDisplayName, status, reason, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        titleId:
+          type: string
+          format: uuid
+        studioSlug:
+          type: string
+        titleSlug:
+          type: string
+        titleDisplayName:
+          type: string
+        status:
+          type: string
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    PlayerTitleReportListResponse:
+      type: object
+      required: [reports]
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlayerTitleReportSummary'
+    PlayerTitleReportResponse:
+      type: object
+      required: [report]
+      properties:
+        report:
+          $ref: '#/components/schemas/PlayerTitleReportSummary'
+    TitleReportActor:
+      type: object
+      required: [subject]
+      properties:
+        subject:
+          type: string
+        userName:
+          type: string
+          nullable: true
+        displayName:
+          type: string
+          nullable: true
+        email:
+          type: string
+          nullable: true
+    TitleReportMessage:
+      type: object
+      required: [id, authorSubject, authorRole, audience, message, createdAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        authorSubject:
+          type: string
+        authorUserName:
+          type: string
+          nullable: true
+        authorDisplayName:
+          type: string
+          nullable: true
+        authorEmail:
+          type: string
+          nullable: true
+        authorRole:
+          type: string
+        audience:
+          type: string
+          description: Visibility lane for the message thread item.
+          enum: [all, developer, player]
+        message:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+    TitleReportSummary:
+      type: object
+      required: [id, titleId, studioId, studioSlug, studioDisplayName, titleSlug, titleDisplayName, titleShortDescription, genreDisplay, currentMetadataRevision, reporterSubject, status, reason, createdAt, updatedAt, messageCount]
+      properties:
+        id:
+          type: string
+          format: uuid
+        titleId:
+          type: string
+          format: uuid
+        studioId:
+          type: string
+          format: uuid
+        studioSlug:
+          type: string
+        studioDisplayName:
+          type: string
+        titleSlug:
+          type: string
+        titleDisplayName:
+          type: string
+        titleShortDescription:
+          type: string
+        genreDisplay:
+          type: string
+        currentMetadataRevision:
+          type: integer
+          format: int32
+        reporterSubject:
+          type: string
+        reporterUserName:
+          type: string
+          nullable: true
+        reporterDisplayName:
+          type: string
+          nullable: true
+        reporterEmail:
+          type: string
+          nullable: true
+        status:
+          type: string
+        reason:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        resolvedAt:
+          type: string
+          format: date-time
+          nullable: true
+        messageCount:
+          type: integer
+          format: int32
+    TitleReportListResponse:
+      type: object
+      required: [reports]
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/TitleReportSummary'
+    TitleReportDetail:
+      type: object
+      required: [report, messages]
+      properties:
+        report:
+          $ref: '#/components/schemas/TitleReportSummary'
+        resolutionNote:
+          type: string
+          nullable: true
+        resolvedBy:
+          type: object
+          allOf:
+            - $ref: '#/components/schemas/TitleReportActor'
+          nullable: true
+        messages:
+          type: array
+          items:
+            $ref: '#/components/schemas/TitleReportMessage'
+    TitleReportDetailResponse:
+      type: object
+      required: [report]
+      properties:
+        report:
+          $ref: '#/components/schemas/TitleReportDetail'
+    AddTitleReportMessageRequest:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+    AddModerationTitleReportMessageRequest:
+      type: object
+      required: [message, recipientRole]
+      properties:
+        message:
+          type: string
+        recipientRole:
+          type: string
+          enum: [developer, player]
+    ModerateTitleReportDecisionRequest:
+      type: object
+      properties:
+        note:
+          type: string
+          nullable: true
     BoardProfile:
       type: object
       required: [boardUserId, displayName, linkedAt, lastSyncedAt]
@@ -4343,7 +5152,7 @@ components:
     CatalogTitleSummary:
       type: object
       description: Public-facing summary for a catalog title.
-      required: [id, studioId, studioSlug, slug, contentKind, lifecycleStatus, visibility, currentMetadataRevision, displayName, shortDescription, genreDisplay, minPlayers, maxPlayers, playerCountDisplay, ageRatingAuthority, ageRatingValue, minAgeYears, ageDisplay]
+      required: [id, studioId, studioSlug, slug, contentKind, lifecycleStatus, visibility, isReported, currentMetadataRevision, displayName, shortDescription, genreDisplay, minPlayers, maxPlayers, playerCountDisplay, ageRatingAuthority, ageRatingValue, minAgeYears, ageDisplay]
       properties:
         id:
           type: string
@@ -4361,6 +5170,9 @@ components:
           $ref: '#/components/schemas/TitleLifecycleStatus'
         visibility:
           $ref: '#/components/schemas/TitleVisibility'
+        isReported:
+          type: boolean
+          description: Whether the title currently has an active moderation report.
         currentMetadataRevision:
           type: integer
           format: int32

@@ -729,6 +729,60 @@
           ]
         },
         {
+          "name": "Get current user notifications",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/notifications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "notifications"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Mark current user notification read",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/identity/me/notifications/{{notificationId}}/read",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "identity",
+                "me",
+                "notifications",
+                "{{notificationId}}",
+                "read"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Get developer access status",
           "event": [
             {
@@ -1028,12 +1082,12 @@
                 "value": "Bearer {{accessToken}}",
                 "type": "text"
               },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          }
-        ],
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"boardUserId\": \"board_user_12345\",\n  \"displayName\": \"BoardKiddo\",\n  \"avatarUrl\": \"https://cdn.board.fun/users/board_user_12345/avatar.png\"\n}"
@@ -1062,22 +1116,22 @@
                     "value": "Bearer {{accessToken}}",
                     "type": "text"
                   },
-          {
-            "key": "Content-Type",
-            "value": "application/json",
-            "type": "text"
-          },
-          {
-            "key": "x-mock-response-code",
-            "value": "201",
-            "type": "text"
-          },
-          {
-            "key": "x-mock-response-name",
-            "value": "default",
-            "type": "text"
-          }
-        ],
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-code",
+                    "value": "201",
+                    "type": "text"
+                  },
+                  {
+                    "key": "x-mock-response-name",
+                    "value": "default",
+                    "type": "text"
+                  }
+                ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"boardUserId\": \"board_user_12345\",\n  \"displayName\": \"BoardKiddo\",\n  \"avatarUrl\": \"https://cdn.board.fun/users/board_user_12345/avatar.png\"\n}"
@@ -1858,7 +1912,8 @@
                   "}",
                   "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
                   "var json = pm.response.json();",
-                  "pm.test(\"Created studio includes slug\", function () { pm.expect(json.studio.slug).to.be.a(\"string\"); });"
+                  "var createdStudio = json.studio || (Array.isArray(json.studios) ? json.studios[0] : null) || json;",
+                  "pm.test(\"Created studio includes slug\", function () { pm.expect(createdStudio).to.be.an(\"object\"); pm.expect(createdStudio.slug).to.be.a(\"string\"); });"
                 ]
               }
             }
@@ -2467,7 +2522,8 @@
                   "}",
                   "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
                   "var json = pm.response.json();",
-                  "pm.test(\"Uploaded studio logo URL is returned\", function () { pm.expect(json.studio.logoUrl).to.be.a(\"string\"); });"
+                  "var updatedStudio = json.studio || (Array.isArray(json.studios) ? json.studios[0] : null) || json;",
+                  "pm.test(\"Uploaded studio logo URL is returned\", function () { pm.expect(updatedStudio).to.be.an(\"object\"); pm.expect(updatedStudio.logoUrl).to.be.a(\"string\"); });"
                 ]
               }
             }
@@ -2583,7 +2639,8 @@
                   "}",
                   "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
                   "var json = pm.response.json();",
-                  "pm.test(\"Uploaded studio banner URL is returned\", function () { pm.expect(json.studio.bannerUrl).to.be.a(\"string\"); });"
+                  "var updatedStudio = json.studio || (Array.isArray(json.studios) ? json.studios[0] : null) || json;",
+                  "pm.test(\"Uploaded studio banner URL is returned\", function () { pm.expect(updatedStudio).to.be.an(\"object\"); pm.expect(updatedStudio.bannerUrl).to.be.a(\"string\"); });"
                 ]
               }
             }
@@ -4068,7 +4125,8 @@
                   "}",
                   "pm.test(\"Status is 201\", function () { pm.response.to.have.status(201); });",
                   "var json = pm.response.json();",
-                  "pm.test(\"Created title slug matches request\", function () { pm.expect(json.title.slug).to.eql(pm.environment.get(\"titleSlug\") || \"star-blasters\"); });"
+                  "var createdTitle = json.title || (Array.isArray(json.titles) ? json.titles[0] : null) || json;",
+                  "pm.test(\"Created title slug matches request\", function () { pm.expect(createdTitle.slug).to.eql(pm.environment.get(\"titleSlug\") || \"star-blasters\"); });"
                 ]
               }
             }
@@ -4564,7 +4622,8 @@
                   "}",
                   "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
                   "var json = pm.response.json();",
-                  "pm.test(\"Current metadata revision changed to 1\", function () { pm.expect(json.title.currentMetadataRevision).to.eql(1); });"
+                  "var restoredTitle = json.title || (Array.isArray(json.titles) ? json.titles[0] : null) || json;",
+                  "pm.test(\"Current metadata revision changed to 1\", function () { pm.expect(restoredTitle.currentMetadataRevision).to.eql(1); });"
                 ]
               }
             }
@@ -7809,6 +7868,493 @@
         }
       ],
       "id": "86360e86-eb37-46c0-893b-84239d654090"
+    },
+    {
+      "name": "Player",
+      "item": [
+        {
+          "name": "Get Player Library",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/library",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "library"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Player Library Title",
+          "item": [],
+          "request": {
+            "method": "PUT",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/library/titles/{{titleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "library",
+                "titles",
+                "{{titleId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Player Library Title",
+          "item": [],
+          "request": {
+            "method": "DELETE",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/library/titles/{{titleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "library",
+                "titles",
+                "{{titleId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Player Wishlist",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/wishlist",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "wishlist"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Player Wishlist Title",
+          "item": [],
+          "request": {
+            "method": "PUT",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/wishlist/titles/{{titleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "wishlist",
+                "titles",
+                "{{titleId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Remove Player Wishlist Title",
+          "item": [],
+          "request": {
+            "method": "DELETE",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/wishlist/titles/{{titleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "wishlist",
+                "titles",
+                "{{titleId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Player Reports",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/reports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "reports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Player Report",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/reports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "reports"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titleId\": \"{{titleId}}\",\n  \"reason\": \"The title card is using misleading artwork.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Player Report Detail",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/reports/{{reportId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "reports",
+                "{{reportId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Player Report Message",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/player/reports/{{reportId}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "player",
+                "reports",
+                "{{reportId}}",
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"The issue is visible on the quick-view card and in the full description.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Title Reports",
+      "item": [
+        {
+          "name": "Get Moderation Title Reports",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/moderation/title-reports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "moderation",
+                "title-reports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Moderation Title Report Detail",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/moderation/title-reports/{{reportId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "moderation",
+                "title-reports",
+                "{{reportId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Moderation Title Report Message",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/moderation/title-reports/{{reportId}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "moderation",
+                "title-reports",
+                "{{reportId}}",
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Please share the exact steps and screenshots you saw in the title.\",\n  \"recipientRole\": \"player\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Validate Moderation Title Report",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/moderation/title-reports/{{reportId}}/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "moderation",
+                "title-reports",
+                "{{reportId}}",
+                "validate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Validated during moderation review.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Invalidate Moderation Title Report",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/moderation/title-reports/{{reportId}}/invalidate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "moderation",
+                "title-reports",
+                "{{reportId}}",
+                "invalidate"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"note\": \"Reviewed during moderation and closed without action.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Developer Title Reports",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}/reports",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}",
+                "reports"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Developer Title Report Detail",
+          "item": [],
+          "request": {
+            "method": "GET",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}/reports/{{reportId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}",
+                "reports",
+                "{{reportId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Developer Title Report Message",
+          "item": [],
+          "request": {
+            "method": "POST",
+            "header": {
+              "key": "Authorization",
+              "value": "Bearer {{accessToken}}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/developer/titles/{{titleId}}/reports/{{reportId}}/messages",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "developer",
+                "titles",
+                "{{titleId}}",
+                "reports",
+                "{{reportId}}",
+                "messages"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \\",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
