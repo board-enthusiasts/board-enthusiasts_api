@@ -892,11 +892,20 @@ paths:
                         displayName: Stellar Forge
                         description: Family co-op studio.
                         logoUrl: https://cdn.example.com/orgs/stellar-forge.png
+                        bannerUrl: https://cdn.example.com/orgs/stellar-forge-banner.png
+                        links:
+                          - id: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+                            label: Discord
+                            url: https://discord.gg/stellarforge
+                            createdAt: '2026-03-07T00:00:00Z'
+                            updatedAt: '2026-03-07T00:00:00Z'
                       - id: 22222222-2222-2222-2222-222222222222
                         slug: tabletop-sparks
                         displayName: Tabletop Sparks
                         description: Party game makers.
                         logoUrl: null
+                        bannerUrl: null
+                        links: []
     post:
       tags: [Studios]
       summary: Create studio
@@ -919,6 +928,7 @@ paths:
                   displayName: Stellar Forge
                   description: Family co-op studio.
                   logoUrl: https://cdn.example.com/orgs/stellar-forge.png
+                  bannerUrl: https://cdn.example.com/orgs/stellar-forge-banner.png
       responses:
         '201':
           description: Studio created successfully.
@@ -935,6 +945,8 @@ paths:
                       displayName: Stellar Forge
                       description: Family co-op studio.
                       logoUrl: https://cdn.example.com/orgs/stellar-forge.png
+                      bannerUrl: https://cdn.example.com/orgs/stellar-forge-banner.png
+                      links: []
                       createdAt: '2026-03-01T20:00:00Z'
                       updatedAt: '2026-03-01T20:00:00Z'
         '401':
@@ -999,6 +1011,13 @@ paths:
                       displayName: Stellar Forge
                       description: Family co-op studio.
                       logoUrl: https://cdn.example.com/orgs/stellar-forge.png
+                      bannerUrl: https://cdn.example.com/orgs/stellar-forge-banner.png
+                      links:
+                        - id: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+                          label: Discord
+                          url: https://discord.gg/stellarforge
+                          createdAt: '2026-03-07T00:00:00Z'
+                          updatedAt: '2026-03-07T00:00:00Z'
                       createdAt: '2026-03-01T20:00:00Z'
                       updatedAt: '2026-03-01T20:00:00Z'
         '404':
@@ -1029,12 +1048,21 @@ paths:
                         displayName: Stellar Forge
                         description: Family co-op studio.
                         logoUrl: https://cdn.example.com/orgs/stellar-forge.png
+                        bannerUrl: https://cdn.example.com/orgs/stellar-forge-banner.png
+                        links:
+                          - id: aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa
+                            label: Discord
+                            url: https://discord.gg/stellarforge
+                            createdAt: '2026-03-07T00:00:00Z'
+                            updatedAt: '2026-03-07T00:00:00Z'
                         role: owner
                       - id: 22222222-2222-2222-2222-222222222222
                         slug: tabletop-sparks
                         displayName: Tabletop Sparks
                         description: Party game makers.
                         logoUrl: null
+                        bannerUrl: null
+                        links: []
                         role: editor
         '401':
           $ref: '#/components/responses/UnauthorizedProblemResponse'
@@ -1068,6 +1096,7 @@ paths:
                   displayName: Stellar Forge Studio
                   description: Updated studio description.
                   logoUrl: https://cdn.example.com/orgs/stellar-forge-studio.png
+                  bannerUrl: https://cdn.example.com/orgs/stellar-forge-studio-banner.png
       responses:
         '200':
           description: Studio updated successfully.
@@ -1118,6 +1147,224 @@ paths:
           description: Caller does not have permission to delete this studio.
         '404':
           description: Studio not found.
+  /developer/studios/{studioId}/links:
+    get:
+      tags: [Studios]
+      summary: List public links for a managed studio
+      operationId: listStudioLinks
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studioId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Studio identifier.
+      responses:
+        '200':
+          description: Studio links returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudioLinkListResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have permission to manage this studio.
+        '404':
+          description: Studio not found.
+    post:
+      tags: [Studios]
+      summary: Create a public studio link
+      operationId: createStudioLink
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studioId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Studio identifier.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertStudioLinkRequest'
+      responses:
+        '201':
+          description: Studio link created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudioLinkResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have permission to manage this studio.
+        '404':
+          description: Studio not found.
+        '422':
+          description: Validation failed for the request payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblemDetails'
+  /developer/studios/{studioId}/links/{linkId}:
+    put:
+      tags: [Studios]
+      summary: Update a public studio link
+      operationId: updateStudioLink
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studioId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: linkId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpsertStudioLinkRequest'
+      responses:
+        '200':
+          description: Studio link updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudioLinkResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have permission to manage this studio.
+        '404':
+          description: Studio or link not found.
+        '422':
+          description: Validation failed for the request payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblemDetails'
+    delete:
+      tags: [Studios]
+      summary: Delete a public studio link
+      operationId: deleteStudioLink
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studioId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: linkId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Studio link deleted successfully.
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have permission to manage this studio.
+        '404':
+          description: Studio or link not found.
+  /developer/studios/{studioId}/logo-upload:
+    post:
+      tags: [Studios]
+      summary: Upload a studio logo image
+      operationId: uploadStudioLogo
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studioId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadStudioMediaForm'
+      responses:
+        '200':
+          description: Studio logo uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudioResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have permission to manage this studio.
+        '404':
+          description: Studio not found.
+        '422':
+          description: Validation failed for the upload payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblemDetails'
+  /developer/studios/{studioId}/banner-upload:
+    post:
+      tags: [Studios]
+      summary: Upload a studio banner image
+      operationId: uploadStudioBanner
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: studioId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadStudioMediaForm'
+      responses:
+        '200':
+          description: Studio banner uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudioResponse'
+        '401':
+          $ref: '#/components/responses/UnauthorizedProblemResponse'
+        '403':
+          description: Caller does not have permission to manage this studio.
+        '404':
+          description: Studio not found.
+        '422':
+          description: Validation failed for the upload payload.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ValidationProblemDetails'
   /developer/studios/{studioId}/memberships:
     get:
       tags: [Studios]
@@ -3525,6 +3772,14 @@ components:
           type: string
           format: uri
           nullable: true
+        bannerUrl:
+          type: string
+          format: uri
+          nullable: true
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioLink'
     Studio:
       allOf:
         - $ref: '#/components/schemas/StudioSummary'
@@ -3582,9 +3837,61 @@ components:
           type: string
           format: uri
           nullable: true
+        bannerUrl:
+          type: string
+          format: uri
+          nullable: true
     UpdateStudioRequest:
       allOf:
         - $ref: '#/components/schemas/CreateStudioRequest'
+    UpsertStudioLinkRequest:
+      type: object
+      required: [label, url]
+      properties:
+        label:
+          type: string
+        url:
+          type: string
+          format: uri
+    StudioLink:
+      type: object
+      required: [id, label, url, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        label:
+          type: string
+        url:
+          type: string
+          format: uri
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    StudioLinkListResponse:
+      type: object
+      required: [links]
+      properties:
+        links:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudioLink'
+    StudioLinkResponse:
+      type: object
+      required: [link]
+      properties:
+        link:
+          $ref: '#/components/schemas/StudioLink'
+    UploadStudioMediaForm:
+      type: object
+      required: [media]
+      properties:
+        media:
+          type: string
+          format: binary
     StudioMembership:
       type: object
       required: [studioId, keycloakSubject, role, joinedAt, updatedAt]
@@ -3948,7 +4255,7 @@ components:
     UpdateIntegrationConnectionRequest:
       allOf:
         - $ref: '#/components/schemas/CreateIntegrationConnectionRequest'
-      description: Request payload for updating an studio-scoped integration connection.
+      description: Request payload for updating a studio-scoped integration connection.
     IntegrationConnectionListResponse:
       type: object
       required: [integrationConnections]
