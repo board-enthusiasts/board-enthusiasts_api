@@ -1,9 +1,11 @@
 param(
     [string]$CollectionPath = "postman/collections/board-enthusiasts-api.contract-tests.postman_collection.json",
     [string]$EnvironmentPath = "postman/environments/board-enthusiasts_local.postman_environment.json",
-    [string]$BaseUrl = "https://localhost:7085",
+    [string]$BaseUrl = "http://127.0.0.1:8787",
     [ValidateSet("live", "mock")]
     [string]$ContractExecutionMode = "live",
+    [string]$DeveloperAccessToken = "",
+    [string]$ModeratorAccessToken = "",
     [string]$ReportPath = "postman-cli-reports/local-contract-tests.xml"
 )
 
@@ -21,15 +23,30 @@ try {
         New-Item -ItemType Directory -Force -Path $reportDirectory | Out-Null
     }
 
-    & postman collection run $CollectionPath `
-        --environment $EnvironmentPath `
-        --env-var "baseUrl=$BaseUrl" `
-        --env-var "contractExecutionMode=$ContractExecutionMode" `
-        --insecure `
-        --bail failure `
-        --reporters cli,junit `
-        --reporter-junit-export $ReportPath `
-        --working-dir $apiRoot
+    $postmanArgs = @(
+        "collection", "run", $CollectionPath,
+        "--environment", $EnvironmentPath,
+        "--env-var", "baseUrl=$BaseUrl",
+        "--env-var", "contractExecutionMode=$ContractExecutionMode",
+        "--bail", "failure",
+        "--reporters", "cli,junit",
+        "--reporter-junit-export", $ReportPath,
+        "--working-dir", $apiRoot
+    )
+
+    if ($DeveloperAccessToken) {
+        $postmanArgs += @("--env-var", "developerAccessToken=$DeveloperAccessToken")
+    }
+
+    if ($ModeratorAccessToken) {
+        $postmanArgs += @("--env-var", "moderatorAccessToken=$ModeratorAccessToken")
+    }
+
+    if ($BaseUrl.StartsWith("https://localhost") -or $BaseUrl.StartsWith("https://127.0.0.1")) {
+        $postmanArgs += "--insecure"
+    }
+
+    & postman @postmanArgs
 
     if ($LASTEXITCODE -ne 0) {
         exit $LASTEXITCODE
