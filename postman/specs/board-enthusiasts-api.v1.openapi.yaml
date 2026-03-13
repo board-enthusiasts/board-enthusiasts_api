@@ -991,6 +991,57 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
+  /developer/studios/{studioId}/avatar-upload:
+    post:
+      tags: [Developer]
+      summary: Upload an avatar for a managed studio
+      operationId: uploadStudioAvatar
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/StudioId"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [media]
+              properties:
+                media:
+                  type: string
+                  format: binary
+      responses:
+        "200":
+          description: Studio avatar uploaded successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StudioResponse"
+        "400":
+          description: Studio upload request was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationProblem"
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "403":
+          description: Current user does not have studio access.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "404":
+          description: Studio was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
   /developer/studios/{studioId}/banner-upload:
     post:
       tags: [Developer]
@@ -2721,6 +2772,8 @@ components:
           type: string
         description:
           type: [string, "null"]
+        avatarUrl:
+          type: [string, "null"]
         logoUrl:
           type: [string, "null"]
         bannerUrl:
@@ -2773,6 +2826,9 @@ components:
           type: string
         description:
           type: [string, "null"]
+        avatarUrl:
+          type: [string, "null"]
+          format: uri
         logoUrl:
           type: [string, "null"]
           format: uri
