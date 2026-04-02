@@ -63,9 +63,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"service\":\"board-enthusiasts-workers-api\",\"stack\":\"workers-supabase\",\"environment\":\"mock\"}"
+              "body": "{\"service\":\"board-enthusiasts-workers-api\",\"stack\":\"workers-supabase\",\"environment\":\"mock\"}",
+              "id": "641ed5ca-7add-44b7-a59e-1ca176571527"
             }
-          ]
+          ],
+          "id": "a0c614fd-5965-4f58-9e3b-09b60aa96305"
         },
         {
           "name": "Liveness health check",
@@ -122,9 +124,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"status\":\"healthy\",\"environment\":\"mock\"}"
+              "body": "{\"status\":\"healthy\",\"environment\":\"mock\"}",
+              "id": "f5813820-3702-4302-bc38-59e9d784cce1"
             }
-          ]
+          ],
+          "id": "5628cda9-abd2-4c77-aaaa-c932f1fac7c7"
         },
         {
           "name": "Readiness health check",
@@ -183,7 +187,8 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"status\":\"ready\",\"environment\":\"mock\",\"stackStatus\":\"configured\",\"supabaseUrlConfigured\":true,\"mediaBucket\":\"card-images\"}"
+              "body": "{\"status\":\"ready\",\"environment\":\"mock\",\"stackStatus\":\"configured\",\"supabaseUrlConfigured\":true,\"mediaBucket\":\"card-images\"}",
+              "id": "b9164b14-a46c-4a4c-80e9-4fc0c65f9fa4"
             },
             {
               "name": "supabase-unavailable",
@@ -210,11 +215,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"type\":\"https://boardtpl.dev/problems/supabase_unavailable\",\"title\":\"Supabase is not ready.\",\"status\":503,\"detail\":\"Temporary startup or dependency failure.\",\"code\":\"supabase_unavailable\"}"
+              "body": "{\"type\":\"https://boardtpl.dev/problems/supabase_unavailable\",\"title\":\"Supabase is not ready.\",\"status\":503,\"detail\":\"Temporary startup or dependency failure.\",\"code\":\"supabase_unavailable\"}",
+              "id": "cf4fcf35-959a-4c83-bf1b-b748c40722a3"
             }
-          ]
+          ],
+          "id": "6e8a4c13-3d6a-49f9-8b8b-99e342b9a864"
         }
-      ]
+      ],
+      "id": "b102ad5b-87f5-428e-9e77-2193d8f6f4c4"
     },
     {
       "name": "Catalog",
@@ -293,9 +301,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"titles\":[{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\"}],\"paging\":{\"pageNumber\":1,\"pageSize\":2,\"totalCount\":1,\"totalPages\":1}}"
+              "body": "{\"titles\":[{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\"}],\"paging\":{\"pageNumber\":1,\"pageSize\":2,\"totalCount\":1,\"totalPages\":1}}",
+              "id": "89dba319-e1e6-45d6-b827-ce5249bdd62c"
             }
-          ]
+          ],
+          "id": "bf380ba1-f647-4d24-b0ca-e269b70ba6e4"
         },
         {
           "name": "Get public studio",
@@ -352,11 +362,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"studio\":{\"id\":\"aaaa1111-1111-1111-1111-111111111111\",\"slug\":\"blue-harbor-games\",\"displayName\":\"Blue Harbor Games\",\"description\":\"Independent Board-focused studio.\",\"logoUrl\":\"https://mock.storage.example/studios/blue-harbor-games/logo.svg\",\"bannerUrl\":\"https://mock.storage.example/studios/blue-harbor-games/banner.png\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\",\"links\":[{\"id\":\"bbbb1111-1111-1111-1111-111111111111\",\"label\":\"Website\",\"url\":\"https://blueharbor.example\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}}"
+              "body": "{\"studio\":{\"id\":\"aaaa1111-1111-1111-1111-111111111111\",\"slug\":\"blue-harbor-games\",\"displayName\":\"Blue Harbor Games\",\"description\":\"Independent Board-focused studio.\",\"logoUrl\":\"https://mock.storage.example/studios/blue-harbor-games/logo.svg\",\"bannerUrl\":\"https://mock.storage.example/studios/blue-harbor-games/banner.png\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\",\"links\":[{\"id\":\"bbbb1111-1111-1111-1111-111111111111\",\"label\":\"Website\",\"url\":\"https://blueharbor.example\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}}",
+              "id": "b8f6498e-77e5-4423-a670-5c9141fc1880"
             }
-          ]
+          ],
+          "id": "d507b86c-5664-4cab-ab3c-0c9e5cbf07fe"
         }
-      ]
+      ],
+      "id": "ad8ba7a3-d9fa-4565-8c82-8f26a423307f"
     },
     {
       "name": "Identity",
@@ -435,11 +448,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"subject\":\"188045ee-6ce1-4322-90a4-9bbec6efeb40\",\"displayName\":\"Emma Torres\",\"email\":\"emma.torres@boardtpl.local\",\"emailVerified\":true,\"identityProvider\":\"email\",\"roles\":[\"player\",\"developer\",\"verified_developer\"]}"
+              "body": "{\"subject\":\"188045ee-6ce1-4322-90a4-9bbec6efeb40\",\"displayName\":\"Emma Torres\",\"email\":\"emma.torres@boardtpl.local\",\"emailVerified\":true,\"identityProvider\":\"email\",\"roles\":[\"player\",\"developer\",\"verified_developer\"]}",
+              "id": "828d6232-e0b8-4848-974e-ca5742d4f7c6"
             }
-          ]
+          ],
+          "id": "3745015d-4c5c-4cbf-a96d-23c8c93431ea"
         }
-      ]
+      ],
+      "id": "48303045-2f92-4bde-b017-0c2cd23e0d42"
     },
     {
       "name": "Developer",
@@ -522,9 +538,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"studios\":[{\"id\":\"aaaa1111-1111-1111-1111-111111111111\",\"slug\":\"blue-harbor-games\",\"displayName\":\"Blue Harbor Games\",\"description\":\"Independent Board-focused studio.\",\"logoUrl\":\"https://mock.storage.example/studios/blue-harbor-games/logo.svg\",\"bannerUrl\":\"https://mock.storage.example/studios/blue-harbor-games/banner.png\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\",\"links\":[{\"id\":\"bbbb1111-1111-1111-1111-111111111111\",\"label\":\"Website\",\"url\":\"https://blueharbor.example\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}],\"role\":\"owner\"}]}"
+              "body": "{\"studios\":[{\"id\":\"aaaa1111-1111-1111-1111-111111111111\",\"slug\":\"blue-harbor-games\",\"displayName\":\"Blue Harbor Games\",\"description\":\"Independent Board-focused studio.\",\"logoUrl\":\"https://mock.storage.example/studios/blue-harbor-games/logo.svg\",\"bannerUrl\":\"https://mock.storage.example/studios/blue-harbor-games/banner.png\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\",\"links\":[{\"id\":\"bbbb1111-1111-1111-1111-111111111111\",\"label\":\"Website\",\"url\":\"https://blueharbor.example\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}],\"role\":\"owner\"}]}",
+              "id": "74f5cf74-9695-4552-a08d-5c46fc3792e3"
             }
-          ]
+          ],
+          "id": "6f64e805-de56-4e45-b81d-a228c78b0981"
         },
         {
           "name": "List studio titles",
@@ -608,9 +626,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"titles\":[{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\"}]}"
+              "body": "{\"titles\":[{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\"}]}",
+              "id": "6bd210a8-c8a4-4b40-bb2e-7c0d1dfe0175"
             }
-          ]
+          ],
+          "id": "541be6d5-c198-442a-8947-129d16118448"
         },
         {
           "name": "Get managed title",
@@ -688,9 +708,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"title\":{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"active\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\",\"description\":\"Work together to route light and solve shifting puzzle rooms.\",\"mediaAssets\":[{\"id\":\"8a2f9c4e-74bc-4ab8-9050-0fb550c7b8e1\",\"mediaRole\":\"card\",\"sourceUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"altText\":\"Lantern Drift key art\",\"mimeType\":\"image/png\",\"width\":1280,\"height\":720,\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}],\"currentRelease\":{\"id\":\"66666666-6666-6666-6666-666666666666\",\"version\":\"1.2.0\",\"publishedAt\":\"2026-03-08T00:00:00.000Z\"},\"acquisition\":{\"url\":\"https://store.example/lantern-drift\"},\"currentReleaseId\":\"66666666-6666-6666-6666-666666666666\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}}"
+              "body": "{\"title\":{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"active\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\",\"description\":\"Work together to route light and solve shifting puzzle rooms.\",\"mediaAssets\":[{\"id\":\"8a2f9c4e-74bc-4ab8-9050-0fb550c7b8e1\",\"mediaRole\":\"card\",\"sourceUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"altText\":\"Lantern Drift key art\",\"mimeType\":\"image/png\",\"width\":1280,\"height\":720,\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}],\"currentRelease\":{\"id\":\"66666666-6666-6666-6666-666666666666\",\"version\":\"1.2.0\",\"publishedAt\":\"2026-03-08T00:00:00.000Z\"},\"acquisition\":{\"url\":\"https://store.example/lantern-drift\"},\"currentReleaseId\":\"66666666-6666-6666-6666-666666666666\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}}",
+              "id": "c94d6161-8d01-42e6-8411-8906d70f5765"
             }
-          ]
+          ],
+          "id": "cdfbf789-ec93-400a-8d4a-687ab9306a08"
         },
         {
           "name": "List title metadata versions",
@@ -770,9 +792,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"metadataVersions\":[{\"revisionNumber\":3,\"isCurrent\":true,\"isFrozen\":true,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"description\":\"Work together to route light and solve shifting puzzle rooms.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}"
+              "body": "{\"metadataVersions\":[{\"revisionNumber\":3,\"isCurrent\":true,\"isFrozen\":true,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"description\":\"Work together to route light and solve shifting puzzle rooms.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}",
+              "id": "ecf47e80-da2d-4083-b321-26df4016e9b4"
             }
-          ]
+          ],
+          "id": "7aebb6a9-e912-4737-8a31-94de59789493"
         },
         {
           "name": "List title media assets",
@@ -852,9 +876,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"mediaAssets\":[{\"id\":\"8a2f9c4e-74bc-4ab8-9050-0fb550c7b8e1\",\"mediaRole\":\"card\",\"sourceUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"altText\":\"Lantern Drift key art\",\"mimeType\":\"image/png\",\"width\":1280,\"height\":720,\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}"
+              "body": "{\"mediaAssets\":[{\"id\":\"8a2f9c4e-74bc-4ab8-9050-0fb550c7b8e1\",\"mediaRole\":\"card\",\"sourceUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"altText\":\"Lantern Drift key art\",\"mimeType\":\"image/png\",\"width\":1280,\"height\":720,\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}",
+              "id": "bcb49df3-6b9e-4d4b-ad20-d54158ae698c"
             }
-          ]
+          ],
+          "id": "6872f56b-8435-4cd7-8d27-b0e2e7a6cc3e"
         },
         {
           "name": "List managed title reports",
@@ -937,9 +963,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"reports\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"studioDisplayName\":\"Blue Harbor Games\",\"titleSlug\":\"lantern-drift\",\"titleDisplayName\":\"Lantern Drift\",\"titleShortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"currentMetadataRevision\":3,\"reporterSubject\":\"player-123\",\"reporterUserName\":\"boardfan\",\"reporterDisplayName\":\"Board Fan\",\"reporterEmail\":\"boardfan@example.com\",\"status\":\"needs_developer_response\",\"reason\":\"The release notes mention a feature that is not in the current build.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\",\"resolvedAt\":null,\"messageCount\":2}]}"
+              "body": "{\"reports\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"studioDisplayName\":\"Blue Harbor Games\",\"titleSlug\":\"lantern-drift\",\"titleDisplayName\":\"Lantern Drift\",\"titleShortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"currentMetadataRevision\":3,\"reporterSubject\":\"player-123\",\"reporterUserName\":\"boardfan\",\"reporterDisplayName\":\"Board Fan\",\"reporterEmail\":\"boardfan@example.com\",\"status\":\"needs_developer_response\",\"reason\":\"The release notes mention a feature that is not in the current build.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\",\"resolvedAt\":null,\"messageCount\":2}]}",
+              "id": "9b653d0d-6d4e-4d3c-964c-d7f8c53f1ad6"
             }
-          ]
+          ],
+          "id": "335db3e2-ced2-480f-a18d-9ede633ff769"
         },
         {
           "name": "Get managed title report detail",
@@ -1021,9 +1049,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"report\":{\"report\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"studioDisplayName\":\"Blue Harbor Games\",\"titleSlug\":\"lantern-drift\",\"titleDisplayName\":\"Lantern Drift\",\"titleShortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"currentMetadataRevision\":3,\"reporterSubject\":\"player-123\",\"reporterUserName\":\"boardfan\",\"reporterDisplayName\":\"Board Fan\",\"reporterEmail\":\"boardfan@example.com\",\"status\":\"needs_developer_response\",\"reason\":\"The release notes mention a feature that is not in the current build.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\",\"resolvedAt\":null,\"messageCount\":2},\"resolutionNote\":null,\"resolvedBy\":null,\"messages\":[{\"id\":\"12121212-1212-1212-1212-121212121212\",\"authorSubject\":\"player-123\",\"authorUserName\":\"boardfan\",\"authorDisplayName\":\"Board Fan\",\"authorEmail\":\"boardfan@example.com\",\"authorRole\":\"player\",\"audience\":\"developer\",\"message\":\"The version string in the UI does not match the patch notes.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\"}]}}"
+              "body": "{\"report\":{\"report\":{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"studioDisplayName\":\"Blue Harbor Games\",\"titleSlug\":\"lantern-drift\",\"titleDisplayName\":\"Lantern Drift\",\"titleShortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"currentMetadataRevision\":3,\"reporterSubject\":\"player-123\",\"reporterUserName\":\"boardfan\",\"reporterDisplayName\":\"Board Fan\",\"reporterEmail\":\"boardfan@example.com\",\"status\":\"needs_developer_response\",\"reason\":\"The release notes mention a feature that is not in the current build.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\",\"resolvedAt\":null,\"messageCount\":2},\"resolutionNote\":null,\"resolvedBy\":null,\"messages\":[{\"id\":\"12121212-1212-1212-1212-121212121212\",\"authorSubject\":\"player-123\",\"authorUserName\":\"boardfan\",\"authorDisplayName\":\"Board Fan\",\"authorEmail\":\"boardfan@example.com\",\"authorRole\":\"player\",\"audience\":\"developer\",\"message\":\"The version string in the UI does not match the patch notes.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\"}]}}",
+              "id": "0654e7a8-1dfb-438d-9a4f-d55058ff72aa"
             }
-          ]
+          ],
+          "id": "b72d652c-e7b9-40ee-9ff1-5d10ee5dfb45"
         },
         {
           "name": "List title releases",
@@ -1105,11 +1135,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"releases\":[{\"id\":\"66666666-6666-6666-6666-666666666666\",\"version\":\"1.2.0\",\"status\":\"production\",\"isCurrent\":true,\"publishedAt\":\"2026-03-08T00:00:00.000Z\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}"
+              "body": "{\"releases\":[{\"id\":\"66666666-6666-6666-6666-666666666666\",\"version\":\"1.2.0\",\"status\":\"production\",\"isCurrent\":true,\"publishedAt\":\"2026-03-08T00:00:00.000Z\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}",
+              "id": "d9c3e6cc-c29d-4604-a097-f46496ced33d"
             }
-          ]
+          ],
+          "id": "33dc2ab5-b7ea-4d06-95d4-a3737246a774"
         }
-      ]
+      ],
+      "id": "aa16852d-8278-4c66-bdf6-b1f3f61f73ac"
     },
     {
       "name": "Player",
@@ -1190,9 +1223,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"boardProfile\":{\"boardUserId\":\"board_emma_torres\",\"displayName\":\"Emma Torres\",\"avatarUrl\":\"https://cdn.board.fun/avatars/board_emma_torres.png\",\"linkedAt\":\"2026-03-08T00:00:00.000Z\",\"lastSyncedAt\":\"2026-03-08T00:00:00.000Z\"}}"
+              "body": "{\"boardProfile\":{\"boardUserId\":\"board_emma_torres\",\"displayName\":\"Emma Torres\",\"avatarUrl\":\"https://cdn.board.fun/avatars/board_emma_torres.png\",\"linkedAt\":\"2026-03-08T00:00:00.000Z\",\"lastSyncedAt\":\"2026-03-08T00:00:00.000Z\"}}",
+              "id": "03091597-a3ef-49b6-abd1-d36daabffdf2"
             }
-          ]
+          ],
+          "id": "d7348204-97f3-4835-b364-741d5f7f7cbc"
         },
         {
           "name": "List current-user notifications",
@@ -1271,9 +1306,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"notifications\":[{\"id\":\"f7777777-7777-7777-7777-777777777777\",\"category\":\"title_report\",\"title\":\"Moderator follow-up for your title\",\"body\":\"Alex Rivera sent an update about Compass Echo. Open the developer report thread for the latest moderator note.\",\"actionUrl\":\"/develop?domain=titles&workflow=titles-reports&titleId=managed-title-id&reportId=report-id\",\"isRead\":false,\"readAt\":null,\"createdAt\":\"2026-03-08T10:05:00.000Z\",\"updatedAt\":\"2026-03-08T10:05:00.000Z\"}]}"
+              "body": "{\"notifications\":[{\"id\":\"f7777777-7777-7777-7777-777777777777\",\"category\":\"title_report\",\"title\":\"Moderator follow-up for your title\",\"body\":\"Alex Rivera sent an update about Compass Echo. Open the developer report thread for the latest moderator note.\",\"actionUrl\":\"/develop?domain=titles&workflow=titles-reports&titleId=managed-title-id&reportId=report-id\",\"isRead\":false,\"readAt\":null,\"createdAt\":\"2026-03-08T10:05:00.000Z\",\"updatedAt\":\"2026-03-08T10:05:00.000Z\"}]}",
+              "id": "4f126933-576d-4f63-8ff5-b65cafcc0a9e"
             }
-          ]
+          ],
+          "id": "b61d6b6b-7f20-48e5-84c5-9761e96f4d15"
         },
         {
           "name": "Mark current-user notification read",
@@ -1368,9 +1405,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"notification\":{\"id\":\"f7777777-7777-7777-7777-777777777777\",\"category\":\"title_report\",\"title\":\"Moderator follow-up for your title\",\"body\":\"Alex Rivera sent an update about Compass Echo. Open the developer report thread for the latest moderator note.\",\"actionUrl\":\"/develop?domain=titles&workflow=titles-reports&titleId=managed-title-id&reportId=report-id\",\"isRead\":true,\"readAt\":\"2026-03-08T10:06:00.000Z\",\"createdAt\":\"2026-03-08T10:05:00.000Z\",\"updatedAt\":\"2026-03-08T10:06:00.000Z\"}}"
+              "body": "{\"notification\":{\"id\":\"f7777777-7777-7777-7777-777777777777\",\"category\":\"title_report\",\"title\":\"Moderator follow-up for your title\",\"body\":\"Alex Rivera sent an update about Compass Echo. Open the developer report thread for the latest moderator note.\",\"actionUrl\":\"/develop?domain=titles&workflow=titles-reports&titleId=managed-title-id&reportId=report-id\",\"isRead\":true,\"readAt\":\"2026-03-08T10:06:00.000Z\",\"createdAt\":\"2026-03-08T10:05:00.000Z\",\"updatedAt\":\"2026-03-08T10:06:00.000Z\"}}",
+              "id": "6fe168a6-4906-45ff-b667-1921de7767e8"
             }
-          ]
+          ],
+          "id": "cc61a307-aa93-4664-bd70-c442a033f324"
         },
         {
           "name": "List player library",
@@ -1446,9 +1485,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"titles\":[{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\"}]}"
+              "body": "{\"titles\":[{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\"}]}",
+              "id": "336dbf7a-42a7-453f-9f30-775ed8093c08"
             }
-          ]
+          ],
+          "id": "822398c3-0117-41f9-a0b6-08ba2082b1db"
         },
         {
           "name": "List player wishlist",
@@ -1524,9 +1565,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"titles\":[{\"id\":\"22222222-2222-2222-2222-222222222222\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"compass-echo\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":1,\"displayName\":\"Compass Echo\",\"shortDescription\":\"A relaxed story-driven exploration game.\",\"genreDisplay\":\"Adventure\",\"minPlayers\":1,\"maxPlayers\":1,\"playerCountDisplay\":\"1 player\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E\",\"minAgeYears\":6,\"ageDisplay\":\"ESRB E\",\"cardImageUrl\":\"https://mock.storage.example/catalog/compass-echo-card.png\",\"acquisitionUrl\":\"https://store.example/compass-echo\"}]}"
+              "body": "{\"titles\":[{\"id\":\"22222222-2222-2222-2222-222222222222\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"compass-echo\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":1,\"displayName\":\"Compass Echo\",\"shortDescription\":\"A relaxed story-driven exploration game.\",\"genreDisplay\":\"Adventure\",\"minPlayers\":1,\"maxPlayers\":1,\"playerCountDisplay\":\"1 player\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E\",\"minAgeYears\":6,\"ageDisplay\":\"ESRB E\",\"cardImageUrl\":\"https://mock.storage.example/catalog/compass-echo-card.png\",\"acquisitionUrl\":\"https://store.example/compass-echo\"}]}",
+              "id": "8cb08060-e1d9-4585-b0a2-9c0df2d15c57"
             }
-          ]
+          ],
+          "id": "7a137d5a-b619-4347-ae90-9baad45481cb"
         },
         {
           "name": "List player title reports",
@@ -1602,11 +1645,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"reports\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"44444444-4444-4444-4444-444444444444\",\"studioSlug\":\"sunset-terminal\",\"titleSlug\":\"orbit-orchard\",\"titleDisplayName\":\"Orbit Orchard\",\"status\":\"needs_player_response\",\"reason\":\"The current metadata looks out of date for the release notes.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\"}]}"
+              "body": "{\"reports\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"44444444-4444-4444-4444-444444444444\",\"studioSlug\":\"sunset-terminal\",\"titleSlug\":\"orbit-orchard\",\"titleDisplayName\":\"Orbit Orchard\",\"status\":\"needs_player_response\",\"reason\":\"The current metadata looks out of date for the release notes.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\"}]}",
+              "id": "566685b5-5629-4cba-ae7c-14d371f259c2"
             }
-          ]
+          ],
+          "id": "690240aa-07ee-46e3-bdc9-1a14044b2e62"
         }
-      ]
+      ],
+      "id": "b34b6015-2ac4-4269-9ab0-92171359d308"
     },
     {
       "name": "Moderation",
@@ -1697,9 +1743,11 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"developers\":[{\"developerSubject\":\"188045ee-6ce1-4322-90a4-9bbec6efeb40\",\"userName\":\"emma.torres\",\"displayName\":\"Emma Torres\",\"email\":\"emma.torres@boardtpl.local\",\"developerAccessEnabled\":true,\"verifiedDeveloper\":true,\"roles\":[\"player\",\"developer\",\"verified_developer\"]}]}"
+              "body": "{\"developers\":[{\"developerSubject\":\"188045ee-6ce1-4322-90a4-9bbec6efeb40\",\"userName\":\"emma.torres\",\"displayName\":\"Emma Torres\",\"email\":\"emma.torres@boardtpl.local\",\"developerAccessEnabled\":true,\"verifiedDeveloper\":true,\"roles\":[\"player\",\"developer\",\"verified_developer\"]}]}",
+              "id": "61cd38b6-43ac-4dbb-8266-95c59bea29d0"
             }
-          ]
+          ],
+          "id": "1802bc68-24ed-4d6e-acc4-1845caf455d5"
         },
         {
           "name": "List moderation title reports",
@@ -1775,11 +1823,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"reports\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"44444444-4444-4444-4444-444444444444\",\"studioId\":\"55555555-5555-5555-5555-555555555555\",\"studioSlug\":\"sunset-terminal\",\"studioDisplayName\":\"Sunset Terminal\",\"titleSlug\":\"orbit-orchard\",\"titleDisplayName\":\"Orbit Orchard\",\"titleShortDescription\":\"Plan orbital harvest routes for a floating orchard.\",\"genreDisplay\":\"Strategy\",\"currentMetadataRevision\":2,\"reporterSubject\":\"66666666-6666-6666-6666-666666666666\",\"reporterUserName\":\"ava.garcia\",\"reporterDisplayName\":\"Ava Garcia\",\"reporterEmail\":\"ava.garcia@boardtpl.local\",\"status\":\"needs_player_response\",\"reason\":\"The current metadata looks out of date for the release notes.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\",\"resolvedAt\":null,\"messageCount\":2}]}"
+              "body": "{\"reports\":[{\"id\":\"33333333-3333-3333-3333-333333333333\",\"titleId\":\"44444444-4444-4444-4444-444444444444\",\"studioId\":\"55555555-5555-5555-5555-555555555555\",\"studioSlug\":\"sunset-terminal\",\"studioDisplayName\":\"Sunset Terminal\",\"titleSlug\":\"orbit-orchard\",\"titleDisplayName\":\"Orbit Orchard\",\"titleShortDescription\":\"Plan orbital harvest routes for a floating orchard.\",\"genreDisplay\":\"Strategy\",\"currentMetadataRevision\":2,\"reporterSubject\":\"66666666-6666-6666-6666-666666666666\",\"reporterUserName\":\"ava.garcia\",\"reporterDisplayName\":\"Ava Garcia\",\"reporterEmail\":\"ava.garcia@boardtpl.local\",\"status\":\"needs_player_response\",\"reason\":\"The current metadata looks out of date for the release notes.\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T02:00:00.000Z\",\"resolvedAt\":null,\"messageCount\":2}]}",
+              "id": "7fd8fb90-ae43-41d5-a18e-c811cf33262d"
             }
-          ]
+          ],
+          "id": "2aff5896-6aef-4064-8235-84a0b215614e"
         }
-      ]
+      ],
+      "id": "15310ed0-0358-4795-b24c-c518bd143a0f"
     },
     {
       "name": "Mock Validation",
@@ -1864,11 +1915,14 @@
                   "value": "application/json"
                 }
               ],
-              "body": "{\"type\":\"https://boardtpl.dev/problems/supabase_unavailable\",\"title\":\"Supabase is not ready.\",\"status\":503,\"detail\":\"Temporary startup or dependency failure.\",\"code\":\"supabase_unavailable\"}"
+              "body": "{\"type\":\"https://boardtpl.dev/problems/supabase_unavailable\",\"title\":\"Supabase is not ready.\",\"status\":503,\"detail\":\"Temporary startup or dependency failure.\",\"code\":\"supabase_unavailable\"}",
+              "id": "1f4eba32-42fb-4c43-b31c-52760fc6463b"
             }
-          ]
+          ],
+          "id": "867f4497-6c10-4f98-872c-f7ebec83c743"
         }
-      ]
+      ],
+      "id": "2e2467a0-8e32-4245-a8fb-58a62775fdff"
     }
   ],
   "event": [
