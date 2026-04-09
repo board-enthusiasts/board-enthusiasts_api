@@ -238,7 +238,13 @@
                   "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
                   "var json = pm.response.json();",
                   "pm.test(\"Catalog titles array returned\", function () { pm.expect(Array.isArray(json.titles)).to.eql(true); });",
-                  "pm.test(\"Paging metadata returned\", function () { pm.expect(json.paging).to.be.an(\"object\"); });"
+                  "pm.test(\"Paging metadata returned\", function () { pm.expect(json.paging).to.be.an(\"object\"); });",
+                  "if (Array.isArray(json.titles) && json.titles.length > 0) {",
+                  "  pm.environment.set(\"publicStudioId\", json.titles[0].studioId || \"\");",
+                  "  pm.environment.set(\"publicStudioSlug\", json.titles[0].studioSlug || \"\");",
+                  "  pm.environment.set(\"publicTitleId\", json.titles[0].id || \"\");",
+                  "  pm.environment.set(\"publicTitleSlug\", json.titles[0].slug || \"\");",
+                  "}"
                 ]
               }
             }
@@ -367,6 +373,131 @@
             }
           ],
           "id": "d507b86c-5664-4cab-ab3c-0c9e5cbf07fe"
+        },
+        {
+          "name": "Get public studio by id",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Studio slug matches the public catalog selection\", function () { pm.expect(json.studio.slug).to.eql(pm.environment.get(\"publicStudioSlug\")); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/studios/{{publicStudioId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "studios",
+                "{{publicStudioId}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/studios/aaaa1111-1111-1111-1111-111111111111",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "studios",
+                    "aaaa1111-1111-1111-1111-111111111111"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"studio\":{\"id\":\"aaaa1111-1111-1111-1111-111111111111\",\"slug\":\"blue-harbor-games\",\"displayName\":\"Blue Harbor Games\",\"description\":\"Independent Board-focused studio.\",\"logoUrl\":\"https://mock.storage.example/studios/blue-harbor-games/logo.svg\",\"bannerUrl\":\"https://mock.storage.example/studios/blue-harbor-games/banner.png\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\",\"links\":[{\"id\":\"bbbb1111-1111-1111-1111-111111111111\",\"label\":\"Website\",\"url\":\"https://blueharbor.example\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}]}}",
+              "id": "8cb9280d-24a1-4fe1-a722-a59c2f2d00c7"
+            }
+          ],
+          "id": "f2ea550a-e75f-468d-b457-01efd0e49177"
+        },
+        {
+          "name": "Get public catalog title by ids",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status is 200\", function () { pm.response.to.have.status(200); });",
+                  "var json = pm.response.json();",
+                  "pm.test(\"Title slug matches the public catalog selection\", function () { pm.expect(json.title.slug).to.eql(pm.environment.get(\"publicTitleSlug\")); });",
+                  "pm.test(\"Studio slug matches the public catalog selection\", function () { pm.expect(json.title.studioSlug).to.eql(pm.environment.get(\"publicStudioSlug\")); });"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/catalog/{{publicStudioId}}/{{publicTitleId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "catalog",
+                "{{publicStudioId}}",
+                "{{publicTitleId}}"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "success",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/catalog/aaaa1111-1111-1111-1111-111111111111/11111111-1111-1111-1111-111111111111",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "catalog",
+                    "aaaa1111-1111-1111-1111-111111111111",
+                    "11111111-1111-1111-1111-111111111111"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\"title\":{\"id\":\"11111111-1111-1111-1111-111111111111\",\"studioId\":\"aaaa1111-1111-1111-1111-111111111111\",\"studioSlug\":\"blue-harbor-games\",\"slug\":\"lantern-drift\",\"contentKind\":\"game\",\"lifecycleStatus\":\"published\",\"visibility\":\"listed\",\"isReported\":false,\"currentMetadataRevision\":3,\"displayName\":\"Lantern Drift\",\"shortDescription\":\"A lantern-lit co-op puzzle game.\",\"genreDisplay\":\"Cooperative Puzzle\",\"minPlayers\":1,\"maxPlayers\":4,\"playerCountDisplay\":\"1-4 players\",\"ageRatingAuthority\":\"ESRB\",\"ageRatingValue\":\"E10+\",\"minAgeYears\":10,\"ageDisplay\":\"ESRB E10+\",\"cardImageUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"acquisitionUrl\":\"https://store.example/lantern-drift\",\"description\":\"Work together to route light and solve shifting puzzle rooms.\",\"mediaAssets\":[{\"id\":\"8a2f9c4e-74bc-4ab8-9050-0fb550c7b8e1\",\"mediaRole\":\"card\",\"sourceUrl\":\"https://mock.storage.example/catalog/lantern-drift-card.png\",\"altText\":\"Lantern Drift key art\",\"mimeType\":\"image/png\",\"width\":1280,\"height\":720,\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}],\"currentRelease\":{\"id\":\"66666666-6666-6666-6666-666666666666\",\"version\":\"1.2.0\",\"publishedAt\":\"2026-03-08T00:00:00.000Z\"},\"acquisition\":{\"url\":\"https://store.example/lantern-drift\"},\"currentReleaseId\":\"66666666-6666-6666-6666-666666666666\",\"createdAt\":\"2026-03-08T00:00:00.000Z\",\"updatedAt\":\"2026-03-08T00:00:00.000Z\"}}",
+              "id": "9b5d7e38-db2c-48ee-8bbc-0570ba8e5a2d"
+            }
+          ],
+          "id": "d0cfe5d8-b4d0-4990-9e8f-5347c7f4c932"
         }
       ],
       "id": "ad8ba7a3-d9fa-4565-8c82-8f26a423307f"

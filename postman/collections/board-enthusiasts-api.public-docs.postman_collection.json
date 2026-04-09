@@ -199,17 +199,17 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/catalog/blue-harbor-games/lantern-drift",
+              "raw": "{{baseUrl}}/catalog/aaaa1111-1111-1111-1111-111111111111/11111111-1111-1111-1111-111111111111",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "catalog",
-                "blue-harbor-games",
-                "lantern-drift"
+                "aaaa1111-1111-1111-1111-111111111111",
+                "11111111-1111-1111-1111-111111111111"
               ]
             },
-            "description": "Returns the public details for a single catalog title."
+            "description": "Returns the public details for a single catalog title. The path accepts either readable slugs or the stable studio/title IDs."
           },
           "response": [
             {
@@ -218,14 +218,14 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/catalog/blue-harbor-games/lantern-drift",
+                  "raw": "{{baseUrl}}/catalog/aaaa1111-1111-1111-1111-111111111111/11111111-1111-1111-1111-111111111111",
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "path": [
                     "catalog",
-                    "blue-harbor-games",
-                    "lantern-drift"
+                    "aaaa1111-1111-1111-1111-111111111111",
+                    "11111111-1111-1111-1111-111111111111"
                   ]
                 }
               },
@@ -291,16 +291,16 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/studios/blue-harbor-games",
+              "raw": "{{baseUrl}}/studios/aaaa1111-1111-1111-1111-111111111111",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "studios",
-                "blue-harbor-games"
+                "aaaa1111-1111-1111-1111-111111111111"
               ]
             },
-            "description": "Returns the public profile for a single studio."
+            "description": "Returns the public profile for a single studio. The path accepts either the readable studio slug or the stable studio ID."
           },
           "response": [
             {
@@ -309,13 +309,13 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/studios/blue-harbor-games",
+                  "raw": "{{baseUrl}}/studios/aaaa1111-1111-1111-1111-111111111111",
                   "host": [
                     "{{baseUrl}}"
                   ],
                   "path": [
                     "studios",
-                    "blue-harbor-games"
+                    "aaaa1111-1111-1111-1111-111111111111"
                   ]
                 }
               },

@@ -158,15 +158,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CatalogTitleListResponse"
-  /catalog/{studioSlug}/{titleSlug}:
+  /catalog/{studioIdentifier}/{titleIdentifier}:
     get:
       tags: [Catalog]
       security: []
       summary: Get public catalog title detail
       operationId: getCatalogTitle
       parameters:
-        - $ref: "#/components/parameters/StudioSlug"
-        - $ref: "#/components/parameters/TitleSlug"
+        - $ref: "#/components/parameters/StudioIdentifier"
+        - $ref: "#/components/parameters/TitleIdentifier"
       responses:
         "200":
           description: Public catalog title detail returned successfully.
@@ -236,14 +236,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
-  /studios/{studioSlug}:
+  /studios/{studioIdentifier}:
     get:
       tags: [Catalog]
       security: []
       summary: Get public studio detail
       operationId: getStudio
       parameters:
-        - $ref: "#/components/parameters/StudioSlug"
+        - $ref: "#/components/parameters/StudioIdentifier"
       responses:
         "200":
           description: Public studio detail returned successfully.
@@ -2290,16 +2290,18 @@ components:
         type: integer
         minimum: 1
         maximum: 100
-    StudioSlug:
-      name: studioSlug
+    StudioIdentifier:
+      name: studioIdentifier
       in: path
       required: true
+      description: Studio slug or stable studio ID.
       schema:
         type: string
-    TitleSlug:
-      name: titleSlug
+    TitleIdentifier:
+      name: titleIdentifier
       in: path
       required: true
+      description: Title slug or stable title ID within the resolved studio.
       schema:
         type: string
     StudioId:
