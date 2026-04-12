@@ -3117,6 +3117,8 @@ components:
           type: integer
         ageDisplay:
           type: [string, "null"]
+        viewCount:
+          type: integer
         cardImageUrl:
           type: [string, "null"]
         acquisitionUrl:
@@ -3307,6 +3309,8 @@ components:
           type: integer
         ageDisplay:
           type: [string, "null"]
+        viewCount:
+          type: integer
         cardImageUrl:
           type: [string, "null"]
           format: uri
