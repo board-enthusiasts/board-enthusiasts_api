@@ -3311,6 +3311,11 @@ components:
           type: [string, "null"]
         viewCount:
           type: integer
+        getTitleClickCount:
+          type: integer
+        lastGetTitleClickedAt:
+          type: [string, "null"]
+          format: date-time
         cardImageUrl:
           type: [string, "null"]
           format: uri
