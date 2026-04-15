@@ -912,6 +912,186 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Problem"
+  /developer/studios/{studioId}/analytics:
+    get:
+      tags: [Developer]
+      summary: Get analytics metrics for a managed studio
+      operationId: getDeveloperStudioAnalytics
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/StudioId"
+        - $ref: "#/components/parameters/AnalyticsFrom"
+        - $ref: "#/components/parameters/AnalyticsTo"
+        - $ref: "#/components/parameters/AnalyticsDescriptor"
+      responses:
+        "200":
+          description: Managed studio analytics returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeveloperAnalyticsResponse"
+        "400":
+          description: Analytics range request was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationProblem"
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "403":
+          description: Current user does not have studio access.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "404":
+          description: Studio was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+  /developer/analytics/views:
+    get:
+      tags: [Developer]
+      summary: List saved analytics views for the current developer
+      operationId: listDeveloperAnalyticsSavedViews
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: subjectScope
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [studio, title]
+      responses:
+        "200":
+          description: Saved analytics views returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeveloperAnalyticsSavedViewListResponse"
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "422":
+          description: Saved analytics view request was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationProblem"
+    post:
+      tags: [Developer]
+      summary: Create a saved analytics view for the current developer
+      operationId: createDeveloperAnalyticsSavedView
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpsertDeveloperAnalyticsSavedViewRequest"
+      responses:
+        "201":
+          description: Saved analytics view created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeveloperAnalyticsSavedViewResponse"
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "422":
+          description: Saved analytics view request was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationProblem"
+  /developer/analytics/views/{viewId}:
+    put:
+      tags: [Developer]
+      summary: Update a saved analytics view for the current developer
+      operationId: updateDeveloperAnalyticsSavedView
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: viewId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpsertDeveloperAnalyticsSavedViewRequest"
+      responses:
+        "200":
+          description: Saved analytics view updated successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeveloperAnalyticsSavedViewResponse"
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "404":
+          description: Saved analytics view was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "422":
+          description: Saved analytics view request was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationProblem"
+    delete:
+      tags: [Developer]
+      summary: Delete a saved analytics view for the current developer
+      operationId: deleteDeveloperAnalyticsSavedView
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: viewId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Saved analytics view deleted successfully.
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "404":
+          description: Saved analytics view was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
   /developer/studios/{studioId}/links:
     get:
       tags: [Developer]
@@ -1363,6 +1543,49 @@ paths:
                 $ref: "#/components/schemas/DeveloperTitleResponse"
         "400":
           description: Title update request was invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationProblem"
+        "401":
+          description: Bearer token was missing or invalid.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "403":
+          description: Current user does not have title access.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+        "404":
+          description: Title was not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Problem"
+  /developer/titles/{titleId}/analytics:
+    get:
+      tags: [Developer]
+      summary: Get analytics metrics for a managed title
+      operationId: getDeveloperTitleAnalytics
+      security:
+        - bearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/TitleId"
+        - $ref: "#/components/parameters/AnalyticsFrom"
+        - $ref: "#/components/parameters/AnalyticsTo"
+        - $ref: "#/components/parameters/AnalyticsDescriptor"
+      responses:
+        "200":
+          description: Managed title analytics returned successfully.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeveloperAnalyticsResponse"
+        "400":
+          description: Analytics range request was invalid.
           content:
             application/json:
               schema:
@@ -2324,6 +2547,33 @@ components:
       required: true
       schema:
         type: string
+    AnalyticsFrom:
+      name: from
+      in: query
+      required: false
+      description: Inclusive ISO 8601 date-time for the start of the analytics range.
+      schema:
+        type: string
+        format: date-time
+    AnalyticsTo:
+      name: to
+      in: query
+      required: false
+      description: Inclusive ISO 8601 date-time for the end of the analytics range.
+      schema:
+        type: string
+        format: date-time
+    AnalyticsDescriptor:
+      name: descriptor
+      in: query
+      required: false
+      description: Optional metric descriptor filter. Repeat the parameter to request multiple specific metrics.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: true
     TitleId:
       name: titleId
       in: path
@@ -2953,6 +3203,133 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/DeveloperStudioSummary"
+    DeveloperAnalyticsMetric:
+      type: object
+      required: [id, descriptor, displayName, subjectScope, aggregationKind, metricKind, valueFormat, valueDisplay, secondaryValue, statusMessage, supportsDateRange, displayOrder, value]
+      properties:
+        id:
+          type: string
+          format: uuid
+        descriptor:
+          type: string
+        displayName:
+          type: string
+        internalDescription:
+          type: [string, "null"]
+        publicDescription:
+          type: [string, "null"]
+        publicTooltip:
+          type: [string, "null"]
+        subjectScope:
+          type: string
+          enum: [studio, title]
+        aggregationKind:
+          type: string
+          enum: [event_count, unique_actor_count]
+        metricKind:
+          type: string
+          enum: [tracked_event, conversion_rate, conversion_rate_comparison, net_change]
+        valueFormat:
+          type: string
+          enum: [number, percentage]
+        valueDisplay:
+          type: string
+        secondaryValue:
+          type: [string, "null"]
+        statusMessage:
+          type: [string, "null"]
+        supportsDateRange:
+          type: boolean
+        displayOrder:
+          type: integer
+        value:
+          type: number
+        lastOccurredAt:
+          type: [string, "null"]
+          format: date-time
+    DeveloperAnalyticsRange:
+      type: object
+      required: [from, to]
+      properties:
+        from:
+          type: string
+          format: date-time
+        to:
+          type: string
+          format: date-time
+    DeveloperAnalyticsResponse:
+      type: object
+      required: [range, metrics]
+      properties:
+        range:
+          $ref: "#/components/schemas/DeveloperAnalyticsRange"
+        metrics:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeveloperAnalyticsMetric"
+    DeveloperAnalyticsSavedViewPanel:
+      type: object
+      required: [descriptor, rangePresetId, customFrom, customTo]
+      properties:
+        descriptor:
+          type: string
+        rangePresetId:
+          type: [string, "null"]
+        customFrom:
+          type: [string, "null"]
+          format: date-time
+        customTo:
+          type: [string, "null"]
+          format: date-time
+    DeveloperAnalyticsSavedView:
+      type: object
+      required: [id, subjectScope, name, panels, createdAt, updatedAt]
+      properties:
+        id:
+          type: string
+          format: uuid
+        subjectScope:
+          type: string
+          enum: [studio, title]
+        name:
+          type: string
+        panels:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeveloperAnalyticsSavedViewPanel"
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DeveloperAnalyticsSavedViewListResponse:
+      type: object
+      required: [views]
+      properties:
+        views:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeveloperAnalyticsSavedView"
+    DeveloperAnalyticsSavedViewResponse:
+      type: object
+      required: [view]
+      properties:
+        view:
+          $ref: "#/components/schemas/DeveloperAnalyticsSavedView"
+    UpsertDeveloperAnalyticsSavedViewRequest:
+      type: object
+      required: [subjectScope, name, panels]
+      properties:
+        subjectScope:
+          type: string
+          enum: [studio, title]
+        name:
+          type: string
+        panels:
+          type: array
+          items:
+            $ref: "#/components/schemas/DeveloperAnalyticsSavedViewPanel"
     DeveloperTitleListResponse:
       type: object
       required: [titles]
